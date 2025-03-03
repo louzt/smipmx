@@ -1,0 +1,58 @@
+---
+import client, { gql } from '../lib/graphqlClient';
+
+// Query to fetch services (adjust based on your actual WordPress content structure)
+const GET_SERVICES = gql`
+  query GetServices {
+    pages(where: {title: "Servicios"}) {
+      nodes {
+        title
+        content
+        id
+      }
+    }
+  }
+`;
+
+let services = [];
+let error = null;
+
+try {
+  const response = await client.query({
+    query: GET_SERVICES
+  });
+  services = response.data.pages.nodes;
+} catch (err) {
+  console.error('GraphQL query error:', err);
+  error = err.message;
+}
+---
+
+<section class="services-section bg-gray-100 py-12">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-10 text-red-700">Nuestros Servicios</h2>
+    
+    {error && (
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+        <p>Error cargando los servicios: {error}</p>
+      </div>
+    )}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {services.map(service => (
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-3 text-black">{service.title}</h3>
+            <div class="text-gray-700" set:html={service.content} />
+          </div>
+        </div>
+      ))}
+      
+      {services.length === 0 && !error && (
+        <div class="col-span-full text-center py-8 text-gray-500">
+          Cargando servicios...
+        </div>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+interface Props {
+    imagePath: string;
+    title?: string;
+    subtitle?: string;
+    height?: string;
+}
+
+const { imagePath, title, subtitle, height = "70vh" } = Astro.props;
+---
+
+<div class="relative" style={`height: ${height};`}>
+    <div 
+        class="absolute inset-0 bg-fixed bg-center bg-cover parallax-bg"
+        style={`background-image: url(${imagePath});`}
+    >
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    </div>
+    <div class="relative h-full flex items-center justify-center text-center text-white px-4">
+        {title && <div class="max-w-4xl">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">{title}</h2>
+            {subtitle && <p class="text-xl md:text-2xl">{subtitle}</p>}
+        </div>}
+        <slot />
+    </div>
+</div>
+
+<style>
+    .parallax-bg {
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    @media (min-width: 768px) {
+        .parallax-bg {
+            background-attachment: fixed;
+        }
+    }
+</style>

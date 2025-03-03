@@ -1,0 +1,42 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-smip-black text-smip-white py-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">SMIPMX</h3>
+                <p class="text-sm">Más de 30 años de experiencia en maquinados industriales, especializada en fabricación y mantenimiento de piezas industriales.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Contacto</h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="tel:+524448516861" class="hover:text-smip-red transition-colors">
+                            📞 444 851 6861
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:contacto@smipmx.com" class="hover:text-smip-red transition-colors">
+                            ✉️ contacto@smipmx.com
+                        </a>
+                    </li>
+                    <li>📍 San Luis Potosí, México</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Servicios</h3>
+                <ul class="space-y-2">
+                    <li><a href="#diseno" class="hover:text-smip-red transition-colors">Diseño Industrial</a></li>
+                    <li><a href="#fabricacion" class="hover:text-smip-red transition-colors">Fabricación y Maquinado</a></li>
+                    <li><a href="#soldadura" class="hover:text-smip-red transition-colors">Soldadura Especializada</a></li>
+                    <li><a href="#mantenimiento" class="hover:text-smip-red transition-colors">Mantenimiento Industrial</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+            <p>&copy; {currentYear} SMIPMX. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>

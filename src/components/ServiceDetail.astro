@@ -1,0 +1,113 @@
+---
+import ParallaxSection from './ParallaxSection.astro';
+import { Image } from 'astro:assets';
+
+// Import images
+import fabricacionImg from '../assets/fotos card servicios/Fabricación de partes mecánicas en procesos de maquinado.png';
+import mantenimientoImg from '../assets/fotos card servicios/Mantenimiento preventivo.png';
+import reconstruccionImg from '../assets/fotos card servicios/Reconstrucción y reparación.png';
+---
+
+<section class="bg-white">
+    <!-- Diseño Industrial -->
+    <ParallaxSection
+        imagePath="/_astro/un render 3d de una parte/Capa 19.png"
+        height="60vh"
+        title="Diseño Industrial"
+        subtitle="Soluciones de ingeniería precisas y eficientes"
+    />
+    
+    <div class="container mx-auto px-4 py-16">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <h3 class="text-3xl font-bold text-smip-red">Innovación en Diseño Industrial</h3>
+                <p class="text-lg">Nuestro proceso de diseño industrial combina creatividad con precisión técnica:</p>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Modelado 3D avanzado y documentación técnica detallada</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Levantamiento técnico en campo con tecnología de última generación</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Optimización de diseños para mayor eficiencia y durabilidad</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="rounded-lg overflow-hidden shadow-xl">
+                <Image src={fabricacionImg} alt="Diseño Industrial SMIPMX" class="w-full h-auto" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Fabricación y Maquinado -->
+    <ParallaxSection
+        imagePath="/_astro/fotos impactantes/horizontales/worker-cuts-metal-ga80aed5ad_1280.png"
+        height="60vh"
+        title="Fabricación y Maquinado"
+        subtitle="Precisión y calidad en cada pieza"
+    />
+    
+    <div class="container mx-auto px-4 py-16">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="rounded-lg overflow-hidden shadow-xl order-2 md:order-1">
+                <Image src={mantenimientoImg} alt="Fabricación y Maquinado SMIPMX" class="w-full h-auto" />
+            </div>
+            <div class="space-y-6 order-1 md:order-2">
+                <h3 class="text-3xl font-bold text-smip-red">Excelencia en Fabricación</h3>
+                <p class="text-lg">Nuestros procesos de fabricación y maquinado garantizan:</p>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Tolerancias precisas y acabados superiores</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Capacidad para manejar proyectos de cualquier escala</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Uso de materiales de alta calidad y procesos certificados</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reconstrucción y Reparación -->
+    <ParallaxSection
+        imagePath="/_astro/fotos impactantes/horizontales/Soldadura1.png"
+        height="60vh"
+        title="Reconstrucción y Reparación"
+        subtitle="Extendiendo la vida útil de sus equipos"
+    />
+    
+    <div class="container mx-auto px-4 py-16">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <h3 class="text-3xl font-bold text-smip-red">Soluciones de Reconstrucción</h3>
+                <p class="text-lg">Especializados en dar nueva vida a componentes industriales:</p>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Recuperación de piezas desgastadas con técnicas avanzadas</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Soldaduras especializadas y tratamientos térmicos</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-smip-red mr-2">•</span>
+                        <span>Garantía en todos los trabajos de reconstrucción</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="rounded-lg overflow-hidden shadow-xl">
+                <Image src={reconstruccionImg} alt="Reconstrucción y Reparación SMIPMX" class="w-full h-auto" />
+            </div>
+        </div>
+    </div>
+</section>

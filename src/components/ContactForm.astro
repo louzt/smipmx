@@ -1,0 +1,67 @@
+---
+---
+<form id="contactForm" class="space-y-6">
+    <div>
+        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input type="text" id="nombre" name="nombre" required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+    </div>
+    <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+    </div>
+    <div>
+        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+    </div>
+    <div>
+        <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
+        <textarea id="mensaje" name="mensaje" rows="4" required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red"></textarea>
+    </div>
+    <div>
+        <button type="submit"
+            class="w-full bg-smip-red text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-colors">
+            Enviar Mensaje
+        </button>
+    </div>
+    <div id="formMessage" class="hidden text-center p-4 rounded-lg">
+    </div>
+</form>
+
+<script>
+    const form = document.getElementById('contactForm') as HTMLFormElement;
+    const messageDiv = document.getElementById('formMessage');
+
+    if (form && messageDiv) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(form);
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+                
+                messageDiv.textContent = data.message;
+                messageDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+                
+                if (response.ok) {
+                    messageDiv.classList.add('bg-green-100', 'text-green-700');
+                    form.reset();
+                } else {
+                    messageDiv.classList.add('bg-red-100', 'text-red-700');
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Error al enviar el mensaje. Por favor, intente nuevamente.';
+                messageDiv.classList.remove('hidden');
+                messageDiv.classList.add('bg-red-100', 'text-red-700');
+            }
+        });
+    }
+</script>

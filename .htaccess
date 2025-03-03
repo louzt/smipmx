@@ -1,0 +1,26 @@
+# Redireccionar todas las solicitudes al index.html para permitir que Astro maneje las rutas
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Si el archivo o directorio solicitado no existe
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Redirigir a index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Habilitar CORS
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+  Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+</IfModule>
+
+# Forzar HTTPS
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>

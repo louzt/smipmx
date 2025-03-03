@@ -1,11 +1,91 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import WhyUs from '../components/WhyUs.astro';
+import ServiceDetail from '../components/ServiceDetail.astro';
+import ParallaxSection from '../components/ParallaxSection.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="SMIPMX - Maquinados Industriales">
+	<Hero />
+	
+	<!-- Por qué Nosotros -->
+	<WhyUs />
+
+	<!-- Servicios Detallados -->
+	<ServiceDetail />
+
+	<!-- Clientes Section with Parallax -->
+	<ParallaxSection
+		imagePath="/_astro/fotos impactantes/horizontales/the-laser-cuts-ge02f36024_1280.png"
+		height="50vh"
+		title="Nuestros Clientes"
+		subtitle="Empresas líderes confían en nosotros"
+	/>
+	
+	<section class="py-20 bg-gray-100">
+		<div class="container mx-auto px-4">
+			<div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+				<div class="flex items-center justify-center p-4 bg-white rounded-lg shadow-lg">
+					<img src="/_astro/clientes/descargar (6).png" alt="Edscha San Luis" class="max-h-16" />
+				</div>
+				<div class="flex items-center justify-center p-4 bg-white rounded-lg shadow-lg">
+					<img src="/_astro/clientes/descargar (7).png" alt="General Motors" class="max-h-16" />
+				</div>
+				<div class="flex items-center justify-center p-4 bg-white rounded-lg shadow-lg">
+					<img src="/_astro/clientes/USGlatamblog-logo-b.png" alt="USG" class="max-h-16" />
+				</div>
+				<div class="flex items-center justify-center p-4 bg-white rounded-lg shadow-lg">
+					<img src="/_astro/logotipo negro para fondo blanco.png" alt="TIMS" class="max-h-16" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contacto Section -->
+	<ParallaxSection
+		imagePath="/_astro/fotos impactantes/horizontales/pexels-andrea-piacquadio-3846440.png"
+		height="40vh"
+		title="Contáctanos"
+		subtitle="Estamos listos para ayudarte"
+	/>
+	
+	<section id="contacto" class="py-20">
+		<div class="container mx-auto px-4">
+			<div class="grid md:grid-cols-2 gap-12">
+				<div>
+					<h3 class="text-2xl font-bold mb-6">Información de Contacto</h3>
+					<div class="space-y-4">
+						<p class="flex items-center">
+							<span class="text-smip-red mr-3">📍</span>
+							San Luis Potosí, México
+						</p>
+						<p class="flex items-center">
+							<span class="text-smip-red mr-3">📞</span>
+							<a href="tel:+524448516861" class="hover:text-smip-red transition-colors">
+								444 851 6861
+							</a>
+						</p>
+						<p class="flex items-center">
+							<span class="text-smip-red mr-3">✉️</span>
+							<a href="mailto:soporte@smipmx.com" class="hover:text-smip-red transition-colors">
+								soporte@smipmx.com
+							</a>
+						</p>
+						<p class="flex items-center">
+							<span class="text-smip-red mr-3">💼</span>
+							<a href="mailto:ventas@smipmx.com" class="hover:text-smip-red transition-colors">
+								ventas@smipmx.com
+							</a>
+						</p>
+					</div>
+				</div>
+				<div>
+					<ContactForm />
+				</div>
+			</div>
+		</div>
+	</section>
 </Layout>

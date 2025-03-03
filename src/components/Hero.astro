@@ -1,0 +1,85 @@
+---
+---
+<section class="relative h-screen overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <div class="relative h-full carousel" id="heroCarousel">
+            <div class="absolute inset-0 bg-gradient-to-r from-smip-black/80 to-smip-black/60 z-10"></div>
+            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0" 
+                style="background-image: url('/_astro/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png');">
+            </div>
+            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
+                style="background-image: url('/_astro/fotos impactantes/horizontales/Soldadura1.png');">
+            </div>
+            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
+                style="background-image: url('/_astro/fotos impactantes/horizontales/worker-cuts-metal-ga80aed5ad_1280.png');">
+            </div>
+        </div>
+    </div>
+    
+    <div class="relative z-20 h-full flex items-center">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl">
+                <div class="mb-4 text-xl md:text-2xl text-smip-red font-semibold">
+                    Más de 30 años de experiencia
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-smip-white mb-6">
+                    Soluciones Integrales en <br/>
+                    <span class="text-smip-red" id="typed-text">Maquinados Industriales</span>
+                </h1>
+                <p class="text-xl text-smip-white mb-8 max-w-2xl">
+                    Expertos en fabricación, mantenimiento y reconstrucción de piezas industriales. 
+                    Tecnología de vanguardia y calidad garantizada.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#servicios" 
+                       class="bg-smip-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                        Descubre Nuestros Servicios
+                    </a>
+                    <a href="#contacto" 
+                       class="border-2 border-white hover:border-smip-red text-white hover:text-smip-red font-bold py-3 px-8 rounded-lg transition-colors">
+                        Solicita una Cotización
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const words = [
+        'Maquinados Industriales',
+        'Diseño Especializado',
+        'Soldadura de Precisión',
+        'Mantenimiento Industrial'
+    ];
+    let currentWordIndex = 0;
+    const typedText = document.getElementById('typed-text');
+    
+    function updateWord() {
+        typedText.style.opacity = '0';
+        setTimeout(() => {
+            typedText.textContent = words[currentWordIndex];
+            typedText.style.opacity = '1';
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+        }, 500);
+    }
+
+    // Update slides
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('#heroCarousel > div:not(:first-child)') as NodeListOf<HTMLElement>;
+    
+    function nextSlide() {
+        slides[currentSlide].style.opacity = '0';
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].style.opacity = '1';
+        updateWord();
+    }
+
+    setInterval(nextSlide, 5000);
+</script>
+
+<style>
+    #typed-text {
+        transition: opacity 0.5s ease-in-out;
+    }
+</style>

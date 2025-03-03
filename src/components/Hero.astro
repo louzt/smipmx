@@ -1,31 +1,34 @@
 ---
+import ScrollDown from './ScrollDown.astro';
 ---
-<section id="inicio" class="relative h-screen overflow-hidden">
+
+<section id="inicio" class="relative h-screen overflow-hidden bg-smip-black">
     <div class="absolute inset-0 z-0">
         <div class="relative h-full carousel" id="heroCarousel">
             <div class="absolute inset-0 bg-gradient-to-r from-smip-black/80 to-smip-black/60 z-10"></div>
             
             <!-- Video slide -->
-            <div class="absolute inset-0 transition-opacity duration-1000 z-0">
+            <div class="absolute inset-0 transition-opacity duration-1000 z-0" id="videoContainer">
                 <video 
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover object-center"
                     autoplay 
                     muted 
                     playsinline
                     id="heroVideo"
+                    poster="/images/assets/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png"
                 >
                     <source src="/images/assets/videos/pexels-tima-miroshnichenko-4941457-1920x1080-50fps.mp4" type="video/mp4">
                 </video>
             </div>
 
             <!-- Image slides -->
-            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
+            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" id="slide1"
                 style="background-image: url('/images/assets/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png');">
             </div>
-            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
+            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" id="slide2"
                 style="background-image: url('/images/assets/fotos impactantes/horizontales/Soldadura1.png');">
             </div>
-            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
+            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" id="slide3"
                 style="background-image: url('/images/assets/fotos impactantes/horizontales/worker-cuts-metal-ga80aed5ad_1280.png');">
             </div>
         </div>
@@ -42,19 +45,34 @@
                     <span class="text-smip-red" id="typed-text">Maquinados Industriales</span>
                 </h1>
                 <p class="text-xl text-smip-white mb-8 max-w-2xl">
-                    Expertos en fabricación, mantenimiento y reconstrucción de piezas industriales. 
+                    Expertos en fabricación, mantenimiento y reconstrucción de piezas industriales en San Luis Potosí. 
                     Tecnología de vanguardia y calidad garantizada.
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="#servicios" 
-                       class="bg-smip-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-all hover:scale-105">
+                       class="bg-smip-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-all hover:scale-105 hover:shadow-lg">
                         Descubre Nuestros Servicios
                     </a>
-                    <a href="#contacto" 
-                       class="border-2 border-white hover:border-smip-red text-white hover:text-smip-red font-bold py-3 px-8 rounded-lg transition-all hover:scale-105">
+                    <a href="https://wa.me/524442571717?text=Hola,%20vi%20su%20página%20web%20y%20me%20interesa%20más%20información." 
+                       target="_blank"
+                       class="border-2 border-white hover:border-smip-red text-white hover:text-smip-red font-bold py-3 px-8 rounded-lg transition-all hover:scale-105 hover:shadow-lg">
                         Solicita una Cotización
                     </a>
                 </div>
+            </div>
+        </div>
+        <div class="absolute bottom-20 left-8 md:bottom-24 md:left-12 transform scale-75 md:scale-125">
+            <ScrollDown />
+        </div>
+    </div>
+    
+    <!-- Banner con información cambiante -->
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-smip-black via-smip-red/90 to-smip-black z-30">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <p class="text-white text-xs md:text-lg font-medium info-banner-text min-h-[2.5rem] md:min-h-[3rem] flex items-center justify-center leading-tight md:leading-normal py-2 md:py-3">
+                    <!-- Este texto cambiará dinámicamente -->
+                </p>
             </div>
         </div>
     </div>
@@ -67,10 +85,29 @@
         'Soldadura de Precisión',
         'Mantenimiento Industrial'
     ];
+    
+   const bannerInfo = [
+    "Optimizamos costos industriales mediante soluciones de reconstrucción y mantenimiento",
+    "Recuperamos piezas desgastadas mediante soldadura especializada y reingeniería",
+    "Extendemos la vida útil de componentes con materiales y técnicas avanzadas",
+    "Fabricamos piezas con tolerancias de hasta ±0.01mm",
+    "Reducimos tiempos de entrega con procesos optimizados y manufactura eficiente",
+    "Maquinamos sobre muestra física, sin necesidad de planos previos",
+    "Realizamos corte láser de alta precisión, ideal para proyectos de máxima exigencia",
+    "Aplicamos soldaduras de alto rendimiento, incluyendo TIG, MIG y arco eléctrico",
+    "Cumplimos con estándares de calidad exigentes, garantizando rendimiento industrial",
+    "Contamos con un equipo técnico altamente capacitado en procesos metalmecánicos"
+];
+
+    
     let currentWordIndex = 0;
+    let currentBannerIndex = 0;
+    let timeoutId;
     const typedText = document.getElementById('typed-text');
+    const bannerText = document.querySelector('.info-banner-text');
     
     function updateWord() {
+        if (!typedText) return;
         typedText.style.opacity = '0';
         setTimeout(() => {
             typedText.textContent = words[currentWordIndex];
@@ -78,40 +115,101 @@
             currentWordIndex = (currentWordIndex + 1) % words.length;
         }, 500);
     }
+    
+    function updateBanner() {
+        if (!bannerText) return;
+        bannerText.style.opacity = '0';
+        
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            bannerText.textContent = bannerInfo[currentBannerIndex];
+            bannerText.style.opacity = '1';
+            currentBannerIndex = (currentBannerIndex + 1) % bannerInfo.length;
+        }, 500);
+    }
+
+    // Inicializar el banner y actualizar cada 8 segundos
+    document.addEventListener('DOMContentLoaded', () => {
+        updateBanner(); // Mostrar el primer mensaje inmediatamente
+        setInterval(updateBanner, 8000);
+    });
 
     // Manejar la transición del video a las imágenes
-    const video = document.getElementById('heroVideo') as HTMLVideoElement;
-    const slides = document.querySelectorAll('#heroCarousel > div:not(:first-child)') as NodeListOf<HTMLElement>;
-    let currentSlide = -1; // Comenzamos en -1 para el video
+    const video = document.getElementById('heroVideo');
+    const videoContainer = document.getElementById('videoContainer');
+    const slides = [
+        document.getElementById('slide1'),
+        document.getElementById('slide2'),
+        document.getElementById('slide3')
+    ];
     
-    function nextSlide() {
+    let currentSlide = -1;
+    
+    function showNextSlide() {
+        // Si estamos mostrando el video, cambiamos a la primera imagen
         if (currentSlide === -1) {
-            // Transición del video a la primera imagen
-            video.parentElement.style.opacity = '0';
+            videoContainer.style.opacity = '0';
             setTimeout(() => {
                 video.pause();
                 slides[0].style.opacity = '1';
+                currentSlide = 0;
             }, 1000);
         } else {
+            // Si estamos mostrando una imagen, ocultamos la actual
             slides[currentSlide].style.opacity = '0';
-            const nextIndex = (currentSlide + 1) % slides.length;
-            slides[nextIndex].style.opacity = '1';
+            
+            // Pasamos a la siguiente imagen o volvemos al video
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            setTimeout(() => {
+                if (currentSlide === 0) {
+                    // Si completamos el ciclo, volver al video
+                    video.currentTime = 0;
+                    video.play();
+                    videoContainer.style.opacity = '1';
+                    currentSlide = -1;
+                } else {
+                    // Mostrar la siguiente imagen
+                    slides[currentSlide].style.opacity = '1';
+                }
+            }, 1000);
         }
-        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Actualizar la palabra al cambiar la imagen
         updateWord();
     }
 
-    // Iniciar el carrusel cuando el video termine
     if (video) {
+        // Cuando termina el video, mostrar la primera imagen
         video.addEventListener('ended', () => {
-            nextSlide();
-            setInterval(nextSlide, 5000);
+            showNextSlide();
+            setInterval(showNextSlide, 5000);
         });
     }
+    
+    // Asegurar reproducción del video en móviles
+    document.addEventListener('DOMContentLoaded', () => {
+        if (video) {
+            video.load();
+            const playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    document.addEventListener('touchstart', () => {
+                        video.play();
+                    }, { once: true });
+                });
+            }
+        }
+    });
 </script>
 
 <style>
     #typed-text {
+        transition: opacity 0.5s ease-in-out;
+    }
+    
+    .info-banner-text {
         transition: opacity 0.5s ease-in-out;
     }
 
@@ -126,5 +224,17 @@
 
     .animate-kenburns {
         animation: kenburns 20s ease-in-out infinite alternate;
+    }
+
+    video, .bg-cover {
+        object-position: center;
+        transform-origin: center;
+    }
+
+    @media (max-width: 768px) {
+        .info-banner-text {
+            font-size: 0.875rem;
+            line-height: 1.25;
+        }
     }
 </style>

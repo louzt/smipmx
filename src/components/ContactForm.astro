@@ -5,105 +5,473 @@ const services = [
     "Reconstrucción y Reparación",
     "Diseño Industrial",
     "Soldadura Especializada",
+    "Corte Láser",
+    "Ensamble y Pintura",
+    "Rehabilitación de Equipos",
     "Otro"
 ];
+
+const empresaSectores = [
+    "Automotriz",
+    "Minería",
+    "Construcción",
+    "Manufactura General",
+    "Aeroespacial",
+    "Energía",
+    "Agroindustria",
+    "Otro"
+];
+
+const urgencias = [
+    "Inmediata (24-48 horas)",
+    "Alta (3-5 días)",
+    "Media (1-2 semanas)",
+    "Baja (más de 2 semanas)",
+    "Solo cotización informativa"
+];
+
+const correos = {
+    soporte: "soporte@smipmx.com",
+    ventas: "ventas@smipmx.com",
+    rh: "abelortiz@smipmx.com",
+    general: "lilianasanchez@smipmx.com"
+};
+
+const contactWords = [
+    "Contáctanos",
+    "Cotiza tu Proyecto",
+    "Mejora tu Productividad",
+    "Optimiza tus Procesos",
+    "Innova con Nosotros",
+    "Impulsa tu Industria"
+];
+
+const mailDescriptions = {
+    soporte: "Para dudas sobre facturación y soporte técnico",
+    ventas: "Para cotizaciones y nuevos proyectos",
+};
+
 ---
-<div class="space-y-8">
-    <form id="contactForm" class="space-y-6">
-        <div class="grid md:grid-cols-2 gap-6">
-            <div>
-                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-                <input type="text" id="nombre" name="nombre" required
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+
+<section class="min-h-screen bg-smip-black flex items-center justify-center py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">
+                    <span id="contact-text" class="inline-block min-w-[300px]">Contáctanos</span>
+                </h2>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    Nuestro equipo de expertos está listo para ayudarte. 
+                    Cuéntanos sobre tu proyecto y te responderemos en menos de 24 horas.
+                </p>
             </div>
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="email" name="email" required
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Formulario Principal -->
+                <div class="flex-grow lg:w-2/3">
+                    <div class="bg-gray-900/50 rounded-xl p-6 md:p-8 shadow-xl">
+                        <form id="contactForm" class="space-y-6" enctype="multipart/form-data">
+                            <!-- Información de contacto -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label for="nombre" class="block text-sm font-medium text-white">Nombre Completo*</label>
+                                    <input type="text" id="nombre" name="nombre" required
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="email" class="block text-sm font-medium text-white">Email*</label>
+                                    <input type="email" id="email" name="email" required
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2" />
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label for="telefono" class="block text-sm font-medium text-white">Teléfono*</label>
+                                    <input type="tel" id="telefono" name="telefono" required
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="empresa" class="block text-sm font-medium text-white">Empresa</label>
+                                    <input type="text" id="empresa" name="empresa"
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2" />
+                                </div>
+                            </div>
+                            
+                            <!-- Detalles del servicio -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label for="servicio" class="block text-sm font-medium text-white">Servicio de Interés*</label>
+                                    <select id="servicio" name="servicio" required
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2">
+                                        <option value="">Seleccione un servicio</option>
+                                        {services.map(service => (
+                                            <option value={service}>{service}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="sector" class="block text-sm font-medium text-white">Sector Industrial</label>
+                                    <select id="sector" name="sector"
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2">
+                                        <option value="">Seleccione un sector</option>
+                                        {empresaSectores.map(sector => (
+                                            <option value={sector}>{sector}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label for="urgencia" class="block text-sm font-medium text-white">Nivel de Urgencia</label>
+                                    <select id="urgencia" name="urgencia"
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2">
+                                        <option value="">Seleccione nivel de urgencia</option>
+                                        {urgencias.map(urgencia => (
+                                            <option value={urgencia}>{urgencia}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="presupuesto" class="block text-sm font-medium text-white">Presupuesto Aproximado</label>
+                                    <select id="presupuesto" name="presupuesto"
+                                        class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2">
+                                        <option value="">Seleccione un rango</option>
+                                        <option value="Menos de $10,000">Menos de $10,000</option>
+                                        <option value="$10,000 - $50,000">$10,000 - $50,000</option>
+                                        <option value="$50,000 - $100,000">$50,000 - $100,000</option>
+                                        <option value="$100,000 - $500,000">$100,000 - $500,000</option>
+                                        <option value="Más de $500,000">Más de $500,000</option>
+                                        <option value="Por determinar">Por determinar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="mensaje" class="block text-sm font-medium text-white">Detalles del Proyecto*</label>
+                                <textarea id="mensaje" name="mensaje" rows="4" required
+                                    placeholder="Describa su proyecto, necesidades específicas o preguntas. Mientras más detalles, mejor podremos ayudarle."
+                                    class="mt-1 block w-full rounded-lg border border-gray-700 shadow-sm focus:border-red-500 focus:ring-red-500 bg-gray-900 text-white px-4 py-2"></textarea>
+                            </div>
+                            
+                            <!-- File Upload Section -->
+                            <div class="space-y-2" id="fileUploadSection">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="toggleFiles" class="rounded border-gray-700 text-red-500 focus:ring-red-500">
+                                    <span class="text-sm text-gray-300">Tengo archivos técnicos o planos para compartir</span>
+                                </label>
+                                
+                                <div id="fileInputArea" class="hidden mt-4">
+                                    <div class="flex items-center justify-center w-full">
+                                        <label class="w-full flex flex-col items-center px-4 py-6 bg-gray-900 text-white rounded-lg border-2 border-dashed border-gray-700 cursor-pointer hover:border-red-500 transition-colors">
+                                            <svg class="w-8 h-8 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                            </svg>
+                                            <span class="text-sm text-gray-400">Arrastra archivos aquí o haz clic para seleccionar</span>
+                                            <input type="file" class="hidden" id="fileInput" multiple accept=".pdf,.dwg,.dxf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg">
+                                        </label>
+                                    </div>
+                                    <div id="fileList" class="mt-4 space-y-2"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <button type="submit"
+                                    class="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-colors hover:scale-105 transform duration-200 flex items-center justify-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    Enviar Solicitud
+                                </button>
+                                <a href="https://wa.me/524442571717?text=Hola,%20vi%20su%20página%20web."
+                                    target="_blank"
+                                    class="w-full bg-[#25D366] text-white py-3 px-6 rounded-lg hover:bg-[#128C7E] transition-colors flex items-center justify-center gap-2 hover:scale-105 transform duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                                    </svg>
+                                    Contactar por WhatsApp
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Información de Contacto - Full width unified container -->
+                <div class="lg:w-1/3 flex flex-col">
+                    <div class="bg-gray-900/50 rounded-xl p-6 flex-grow flex flex-col justify-center space-y-8">
+                        <!-- Info de Contacto -->
+                        <div>
+                            <h3 class="text-xl font-bold mb-6 text-white">Información de Contacto</h3>
+                            <ul class="space-y-6">
+                                <li class="flex items-start space-x-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    <div>
+                                        <p class="font-semibold text-white">Teléfono</p>
+                                        <p class="text-gray-300">+52 444 257 1717</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <div>
+                                        <p class="font-semibold text-white">Correo Electrónico</p>
+                                        <div class="space-y-2">
+                                            <div>
+                                                <p class="text-gray-300">{mailDescriptions.soporte}:</p>
+                                                <a href={`mailto:${correos.soporte}`} class="text-smip-red hover:text-red-400 transition-colors">
+                                                    {correos.soporte}
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-300">{mailDescriptions.ventas}:</p>
+                                                <a href={`mailto:${correos.ventas}`} class="text-smip-red hover:text-red-400 transition-colors">
+                                                    {correos.ventas}
+                                                </a>
+                                            </div>
+                                            <a href={`mailto:${correos.rh}`} class="block text-smip-red hover:text-red-400 transition-colors">
+                                                {correos.rh}
+                                            </a>
+                                            <a href={`mailto:${correos.general}`} class="block text-smip-red hover:text-red-400 transition-colors">
+                                                {correos.general}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    <div>
+                                        <p class="font-semibold text-white">Ubicación</p>
+                                        <p class="text-gray-300">San Luis Potosí, SLP.</p>
+                                        <p class="text-gray-300">México</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Horario de Atención -->
+                        <div>
+                            <h3 class="text-xl font-bold mb-4 text-white">Horario de Atención</h3>
+                            <ul class="space-y-2">
+                                <li class="flex justify-between text-gray-300">
+                                    <span>Lunes - Viernes</span>
+                                    <span>8:00 AM - 6:00 PM</span>
+                                </li>
+                                <li class="flex justify-between text-gray-300">
+                                    <span>Sábado</span>
+                                    <span>9:00 AM - 2:00 PM</span>
+                                </li>
+                                <li class="text-red-500 mt-4 text-sm">
+                                    * Servicio de emergencia 24/7 disponible para clientes con contrato.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="grid md:grid-cols-2 gap-6">
-            <div>
-                <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-                <input type="tel" id="telefono" name="telefono"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
-            </div>
-            <div>
-                <label for="servicio" class="block text-sm font-medium text-gray-700">Servicio de Interés</label>
-                <select id="servicio" name="servicio" required
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red">
-                    <option value="">Seleccione un servicio</option>
-                    {services.map(service => (
-                        <option value={service}>{service}</option>
-                    ))}
-                </select>
-            </div>
-        </div>
-        <div>
-            <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
-            <textarea id="mensaje" name="mensaje" rows="4" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red"></textarea>
-        </div>
-        <div class="grid md:grid-cols-2 gap-4">
-            <button type="submit"
-                class="w-full bg-smip-red text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-colors">
-                Enviar Mensaje
-            </button>
-            <a href="https://wa.me/524442571717?text=Hola,%20vi%20su%20página%20web."
-               class="w-full bg-[#25D366] text-white py-3 px-6 rounded-lg hover:bg-[#128C7E] transition-colors flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-                </svg>
-                Contactar por WhatsApp
-            </a>
-        </div>
-    </form>
-    <div id="formMessage" class="hidden text-center p-4 rounded-lg">
     </div>
-</div>
+</section>
+
+<style>
+    .fade-in {
+        opacity: 0;
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Estilos para la subida de archivos */
+    #fileList .file-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #fileList .file-item .remove-file {
+        color: #ef4444;
+        cursor: pointer;
+    }
+
+    .hover-lift {
+        transition: transform 0.2s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-2px);
+    }
+
+    #contact-text {
+        transition: opacity 0.5s ease-in-out;
+    }
+</style>
 
 <script>
     const form = document.getElementById('contactForm') as HTMLFormElement;
-    const messageDiv = document.getElementById('formMessage');
-    const servicioSelect = document.getElementById('servicio') as HTMLSelectElement;
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    const fileList = document.getElementById('fileList');
+    const toggleFiles = document.getElementById('toggleFiles') as HTMLInputElement;
+    const fileInputArea = document.getElementById('fileInputArea');
+    const selectedFiles = new Set();
 
-    if (form && messageDiv) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            try {
-                const formData = new FormData(form);
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    body: formData,
-                });
+    // Toggle archivo
+    toggleFiles?.addEventListener('change', (e) => {
+        if (fileInputArea) {
+            fileInputArea.style.display = (e.target as HTMLInputElement).checked ? 'block' : 'none';
+        }
+    });
 
-                const data = await response.json();
-                
-                messageDiv.textContent = data.message;
-                messageDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700');
-                
-                if (response.ok) {
-                    messageDiv.classList.add('bg-green-100', 'text-green-700');
-                    form.reset();
-                } else {
-                    messageDiv.classList.add('bg-red-100', 'text-red-700');
+    // Manejo de archivos
+    fileInput?.addEventListener('change', handleFileSelect);
+    
+    function handleFileSelect(event: Event) {
+        const input = event.target as HTMLInputElement;
+        const files = input.files;
+        
+        if (files && fileList) {
+            Array.from(files).forEach(file => {
+                if (!selectedFiles.has(file.name)) {
+                    selectedFiles.add(file.name);
+                    
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `
+                        <span class="text-white">${file.name}</span>
+                        <button type="button" class="remove-file">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    `;
+                    
+                    fileItem.querySelector('.remove-file')?.addEventListener('click', () => {
+                        fileItem.remove();
+                        selectedFiles.delete(file.name);
+                    });
+                    
+                    fileList.appendChild(fileItem);
                 }
-
-                // Si el envío fue exitoso, redirigir a WhatsApp con el mensaje
-                if (response.ok) {
-                    const nombre = formData.get('nombre');
-                    const servicio = formData.get('servicio');
-                    const mensaje = formData.get('mensaje');
-                    const whatsappMessage = `Hola, vi su página web. Soy ${nombre} y estoy interesado en ${servicio}. ${mensaje}`;
-                    const whatsappUrl = `https://wa.me/524442571717?text=${encodeURIComponent(whatsappMessage)}`;
-                    window.open(whatsappUrl, '_blank');
-                }
-            } catch (error) {
-                messageDiv.textContent = 'Error al enviar el mensaje. Por favor, intente nuevamente.';
-                messageDiv.classList.remove('hidden');
-                messageDiv.classList.add('bg-red-100', 'text-red-700');
-            }
-        });
+            });
+        }
     }
+
+    // Drag and Drop
+    const dropZone = document.querySelector('label[for="fileInput"]');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone?.addEventListener(eventName, preventDefaults);
+    });
+
+    function preventDefaults(e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone?.addEventListener(eventName, highlight);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone?.addEventListener(eventName, unhighlight);
+    });
+
+    function highlight(e: Event) {
+        dropZone?.classList.add('border-red-500');
+    }
+
+    function unhighlight(e: Event) {
+        dropZone?.classList.remove('border-red-500');
+    }
+
+    dropZone?.addEventListener('drop', handleDrop);
+
+    function handleDrop(e: DragEvent) {
+        const dt = e.dataTransfer;
+        if (dt && fileInput) {
+            fileInput.files = dt.files;
+            handleFileSelect({ target: fileInput } as unknown as Event);
+        }
+    }
+
+    // Form submission
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        
+        // Validación
+        const required = ['nombre', 'email', 'telefono', 'servicio', 'mensaje'];
+        const missingFields = required.filter(field => !formData.get(field));
+        
+        if (missingFields.length > 0) {
+            alert('Por favor complete todos los campos requeridos (*)');
+            return;
+        }
+        
+        try {
+            // Simulación de envío (reemplazar con tu endpoint real)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Construir mensaje de WhatsApp
+            const whatsappMessage = `
+                Hola, soy ${formData.get('nombre')} de ${formData.get('empresa') || 'empresa no especificada'}.
+                Me interesa el servicio de ${formData.get('servicio')}.
+                Sector: ${formData.get('sector') || 'No especificado'}
+                Urgencia: ${formData.get('urgencia') || 'No especificada'}
+                Mensaje: ${formData.get('mensaje')}
+            `.trim();
+            
+            // Redireccionar a WhatsApp
+            if (confirm('¿Desea continuar la conversación por WhatsApp?')) {
+                window.open(`https://wa.me/524442571717?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+            }
+            
+            form.reset();
+            fileList.innerHTML = '';
+            selectedFiles.clear();
+            toggleFiles.checked = false;
+            if (fileInputArea) fileInputArea.style.display = 'none';
+            
+            alert('Mensaje enviado con éxito');
+        } catch (error) {
+            alert('Error al enviar el mensaje. Por favor, intente nuevamente.');
+        }
+    });
+
+    // Animación del texto de contacto
+    const contactText = document.getElementById('contact-text');
+    const contactWords = [
+        "Contáctanos",
+        "Cotiza tu Proyecto",
+        "Mejora tu Productividad",
+        "Optimiza tus Procesos",
+        "Innova con Nosotros",
+        "Impulsa tu Industria"
+    ];
+    let currentContactWordIndex = 0;
+
+    function updateContactWord() {
+        if (!contactText) return;
+        contactText.style.opacity = '0';
+        setTimeout(() => {
+            contactText.textContent = contactWords[currentContactWordIndex];
+            contactText.style.opacity = '1';
+            currentContactWordIndex = (currentContactWordIndex + 1) % contactWords.length;
+        }, 500);
+    }
+
+    // Iniciar la animación del texto de contacto
+    setInterval(updateContactWord, 4000);
 </script>

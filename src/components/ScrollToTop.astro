@@ -1,0 +1,67 @@
+---
+---
+<!-- 
+  Botón de "Volver arriba" que aparece cuando el usuario desplaza la página
+  hacia abajo. Ahora ubicado en la esquina inferior izquierda para evitar
+  superposición con el botón de WhatsApp.
+-->
+<button
+    id="scrollToTop"
+    class="fixed bottom-6 left-6 bg-smip-black/80 text-white p-3 rounded-full shadow-lg hover:bg-smip-red transition-all duration-300 backdrop-blur-sm opacity-0 invisible z-50"
+    aria-label="Volver arriba"
+>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+</button>
+
+<script>
+    // Obtenemos referencia al botón
+    const scrollToTopButton = document.getElementById('scrollToTop');
+    let lastScrollTop = 0;
+    
+    // Función que controla la visibilidad del botón según la posición del scroll
+    function toggleScrollButton() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Mostrar el botón cuando el usuario ha desplazado más de 500px
+        if (scrollTop > 500) {
+            scrollToTopButton?.classList.remove('opacity-0', 'invisible');
+            scrollToTopButton?.classList.add('opacity-100');
+        } else {
+            // Ocultar el botón cuando está cerca de la parte superior
+            scrollToTopButton?.classList.remove('opacity-100');
+            scrollToTopButton?.classList.add('opacity-0', 'invisible');
+        }
+        
+        lastScrollTop = scrollTop;
+    }
+
+    // Configurar detectores de eventos
+    window.addEventListener('scroll', toggleScrollButton);
+    
+    // Añadir funcionalidad al botón para volver arriba con animación suave
+    scrollToTopButton?.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+
+<style>
+    /* 
+      Estilos para la animación del botón:
+      - Inicialmente aparece 20px más abajo y se anima hacia arriba
+      - Transiciones suaves para todos los cambios de estado
+    */
+    #scrollToTop {
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Cuando el botón es visible, se mueve a su posición final */
+    #scrollToTop.opacity-100 {
+        transform: translateY(0);
+    }
+</style>

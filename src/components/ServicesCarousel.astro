@@ -1,0 +1,403 @@
+---
+import { Image } from 'astro:assets';
+import ServiceHero from './ServiceHero.astro';
+
+// Import images
+import fabricacionImg from '../assets/fotos card servicios/Fabricación de partes mecánicas en procesos de maquinado.png';
+import mantenimientoImg from '../assets/fotos card servicios/Mantenimiento preventivo.png';
+import reconstruccionImg from '../assets/fotos card servicios/Reconstrucción y reparación.png';
+
+const services = [
+    {
+        title: "Diseño y Fabricación",
+        description: "Modelado 3D, prototipado rápido y fabricación de piezas con precisión milimétrica.",
+        image: fabricacionImg,
+        cta: "Cotiza tu proyecto",
+        whatsappText: "Hola, me interesa información sobre servicios de diseño y fabricación",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4h6m-3-3v6m4.243 4.243l-9.9 9.9a2.121 2.121 0 01-3-3l9.9-9.9a2.121 2.121 0 013 3z" />
+               </svg>`
+    },
+    {
+        title: "Mantenimiento Industrial",
+        description: "Servicios preventivos y correctivos para mantener tu operación en óptimas condiciones.",
+        image: mantenimientoImg,
+        cta: "Agenda tu mantenimiento",
+        whatsappText: "Hola, me interesa información sobre servicios de mantenimiento industrial",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+               </svg>`
+    },
+    {
+        title: "Reconstrucción y Reparación",
+        description: "Recupera la vida útil de tus equipos con nuestro servicio especializado.",
+        image: reconstruccionImg,
+        cta: "Solicita una evaluación",
+        whatsappText: "Hola, me interesa información sobre servicios de reconstrucción y reparación",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+               </svg>`
+    },
+    {
+        title: "Soldadura Especializada",
+        description: "Servicios de soldadura de alta precisión con técnicas avanzadas.",
+        image: fabricacionImg,
+        cta: "Consulta nuestros servicios",
+        whatsappText: "Hola, me interesa información sobre servicios de soldadura especializada",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+               </svg>`
+    },
+    {
+        title: "Instalación de Equipos",
+        description: "Instalación y puesta en marcha de maquinaria industrial.",
+        image: mantenimientoImg,
+        cta: "Agenda tu instalación",
+        whatsappText: "Hola, me interesa información sobre instalación de equipos",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+               </svg>`
+    }
+];
+---
+
+<section id="servicios" class="bg-smip-black w-full relative">
+    <!-- Hero de Servicios con video -->
+    <div class="h-[60vh] relative overflow-hidden">
+        <div class="absolute inset-0">
+            <!-- Video principal -->
+            <div class="absolute inset-0">
+                <video 
+                    class="w-full h-full object-cover"
+                    autoplay 
+                    muted 
+                    playsinline
+                    loop
+                    id="serviceVideo"
+                >
+                    <source src="/images/assets/videos/3987526-sd_960_540_25fps.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-smip-black"></div>
+        </div>
+        <div class="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Soluciones Integrales</h2>
+            <p class="text-xl text-white/80">Diseño, fabricación y mantenimiento industrial de precisión</p>
+        </div>
+    </div>
+
+    <!-- Carrusel de Servicios con overlap -->
+    <div class="container mx-auto md:px-4 -mt-32 relative z-20">
+        <div class="bg-smip-black/95 rounded-xl p-4 md:p-8 shadow-2xl">
+            <!-- Carrusel -->
+            <div class="overflow-hidden">
+                <div class="services-track flex transition-transform duration-500 ease-in-out mx-auto">
+                    {services.map((service, index) => (
+                        <div class="flex-none w-[90vw] md:w-[calc(33.333%-1rem)] px-2 md:px-3 service-slide">
+                            <div class="bg-white/10 backdrop-blur rounded-lg overflow-hidden hover-lift h-full">
+                                <!-- Contenedor de la imagen con altura fija -->
+                                <div class="relative overflow-hidden h-[300px] md:h-[400px]">
+                                    <Image 
+                                        src={service.image} 
+                                        alt={service.title}
+                                        class="w-full h-full object-cover object-bottom transition-transform duration-500 hover:scale-110"
+                                    />
+                                </div>
+                                <div class="p-6 md:p-8 text-white relative">
+                                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                                        <span class="icon flex-shrink-0" set:html={service.icon} />
+                                        <span>{service.title}</span>
+                                    </h3>
+                                    <p class="opacity-80 mb-6">{service.description}</p>
+                                    <a 
+                                        href={`https://wa.me/524442571717?text=${encodeURIComponent(service.whatsappText)}`}
+                                        target="_blank"
+                                        class="inline-flex items-center justify-center gap-2 bg-smip-red w-full px-6 py-3 rounded-lg transition-all duration-300 hover:bg-red-700 group"
+                                    >
+                                        <span class="icon flex-shrink-0 transform transition-transform group-hover:scale-110" set:html={service.icon} />
+                                        <span class="flex-shrink-0">{service.cta}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <!-- Controles de navegación -->
+            <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors prev-slide z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors next-slide z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <!-- Paginación -->
+            <div class="flex justify-center gap-2 mt-8">
+                {services.map((_, index) => (
+                    <button 
+                        class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition-colors pagination-dot"
+                        data-index={index}
+                        aria-label={`Ir al servicio ${index + 1}`}>
+                    </button>
+                ))}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .services-track {
+        transform: translateX(0);
+        width: max-content;
+    }
+
+    .service-slide {
+        opacity: 0.5;
+        transition: opacity 0.5s ease;
+    }
+
+    .service-slide.active {
+        opacity: 1;
+    }
+
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2);
+    }
+
+    .icon {
+        @apply text-smip-red;
+    }
+
+    @media (max-width: 768px) {
+        .service-slide {
+            width: 85vw;
+            margin: 0 auto;
+        }
+        
+        .services-track {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        .service-slide {
+            width: 90vw;
+            margin: 0 auto;
+        }
+    }
+
+    @media (min-width: 1025px) {
+        .service-slide {
+            width: calc(33.333% - 1rem);
+        }
+    }
+</style>
+
+<script>
+    const track = document.querySelector('.services-track') as HTMLElement;
+    const slides = document.querySelectorAll('.service-slide') as NodeListOf<HTMLElement>;
+    const dots = document.querySelectorAll('.pagination-dot');
+    const prevBtn = document.querySelector('.prev-slide');
+    const nextBtn = document.querySelector('.next-slide');
+    
+    let currentIndex = 0;
+    let startX: number;
+    let isDragging = false;
+    let slideWidth = slides[0]?.offsetWidth + 24; // Incluye el padding
+    
+    function updateSlideWidth() {
+        slideWidth = slides[0]?.offsetWidth + 24;
+    }
+
+    function updateSlides(index: number) {
+        if (!track) return;
+        
+        // Calcular el máximo índice dependiendo del ancho de pantalla
+        let visibleSlides = 1; // Por defecto para móviles
+        if (window.innerWidth >= 1024) {
+            visibleSlides = 3; // En desktop mostramos 3 slides
+        } else if (window.innerWidth >= 768) {
+            visibleSlides = 2; // En tablets mostramos 2 slides
+        }
+        
+        const maxIndex = Math.max(0, slides.length - visibleSlides);
+        
+        // Si llegamos al final, volver al principio
+        if (index > maxIndex) {
+            index = 0;
+        } else if (index < 0) {
+            index = maxIndex;
+        }
+        
+        // Actualizar posición del track
+        const offset = -index * slideWidth;
+        track.style.transform = `translateX(${offset}px)`;
+        
+        // Actualizar estado activo de slides
+        slides.forEach((slide, i) => {
+            if (i === index) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+        
+        // Actualizar dots
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add('bg-white');
+                dot.classList.remove('bg-white/30');
+            } else {
+                dot.classList.remove('bg-white');
+                dot.classList.add('bg-white/30');
+            }
+        });
+        
+        currentIndex = index;
+        
+        // Habilitar/deshabilitar botones según la posición
+        if (prevBtn && nextBtn) {
+            prevBtn.classList.toggle('opacity-50', currentIndex === 0);
+            nextBtn.classList.toggle('opacity-50', currentIndex === slides.length - 1);
+        }
+    }
+
+    // Event Listeners
+    prevBtn?.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            updateSlides(currentIndex - 1);
+        }
+    });
+
+    nextBtn?.addEventListener('click', () => {
+        if (currentIndex < slides.length - 1) {
+            updateSlides(currentIndex + 1);
+        }
+    });
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            updateSlides(index);
+        });
+    });
+
+    // Touch/Mouse events para swipe
+    track?.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - track.offsetLeft;
+        track.style.transition = 'none';
+    });
+
+    track?.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].pageX - track.offsetLeft;
+        track.style.transition = 'none';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 2;
+        const current = -currentIndex * slideWidth;
+        track.style.transform = `translateX(${current + walk}px)`;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const x = e.touches[0].pageX - track.offsetLeft;
+        const walk = (x - startX) * 2;
+        const current = -currentIndex * slideWidth;
+        track.style.transform = `translateX(${current + walk}px)`;
+    });
+
+    function handleDragEnd(e: MouseEvent | TouchEvent) {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.transition = 'transform 0.5s ease-in-out';
+        
+        const x = 'touches' in e ? e.changedTouches[0].pageX : e.pageX;
+        const walk = (x - startX) * 2;
+        
+        if (Math.abs(walk) > slideWidth / 3) {
+            if (walk > 0 && currentIndex > 0) {
+                updateSlides(currentIndex - 1);
+            } else if (walk < 0 && currentIndex < slides.length - 1) {
+                updateSlides(currentIndex + 1);
+            } else {
+                updateSlides(currentIndex);
+            }
+        } else {
+            updateSlides(currentIndex);
+        }
+    }
+
+    window.addEventListener('mouseup', handleDragEnd);
+    window.addEventListener('touchend', handleDragEnd);
+
+    // Actualizar en resize
+    window.addEventListener('resize', () => {
+        updateSlideWidth();
+        updateSlides(currentIndex);
+    });
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+        updateSlideWidth();
+        updateSlides(0);
+        slides[0]?.classList.add('active');
+    });
+
+    // Autoplay
+    let autoplayInterval: number;
+
+    function startAutoplay() {
+        autoplayInterval = setInterval(() => {
+            if (currentIndex < slides.length - 1) {
+                updateSlides(currentIndex + 1);
+            } else {
+                updateSlides(0);
+            }
+        }, 5000);
+    }
+
+    function stopAutoplay() {
+        clearInterval(autoplayInterval);
+    }
+
+    // Iniciar autoplay
+    startAutoplay();
+
+    // Detener autoplay en hover o touch
+    track?.addEventListener('mouseenter', stopAutoplay);
+    track?.addEventListener('mouseleave', startAutoplay);
+    track?.addEventListener('touchstart', stopAutoplay);
+    track?.addEventListener('touchend', startAutoplay);
+
+    // Inicialización del video del servicio
+    document.addEventListener('DOMContentLoaded', () => {
+        const serviceVideo = document.getElementById('serviceVideo') as HTMLVideoElement;
+        if (serviceVideo) {
+            serviceVideo.play().catch(error => {
+                console.error("Error playing service video:", error);
+                // Intentar reproducir en interacción del usuario
+                document.addEventListener('touchstart', () => {
+                    serviceVideo.play().catch(console.error);
+                }, { once: true });
+            });
+        }
+    });
+</script>

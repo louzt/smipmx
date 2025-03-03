@@ -1,64 +1,213 @@
 ---
+const features = [
+    {
+        icon: "⚡",
+        title: "Experiencia Comprobada",
+        description: "Más de 30 años en la industria nos respaldan. Nuestro equipo altamente calificado ha resuelto desafíos técnicos complejos para empresas líderes."
+    },
+    {
+        icon: "🎯",
+        title: "Precisión y Calidad",
+        description: "Utilizamos tecnología de última generación y procesos rigurosos de control de calidad para garantizar que cada pieza cumpla con las especificaciones exactas."
+    },
+    {
+        icon: "🔧",
+        title: "Soluciones Integrales",
+        description: "Desde el diseño hasta la fabricación y mantenimiento, ofrecemos un servicio completo que reduce tiempos y costos operativos."
+    }
+];
 ---
-<section id="nosotros" class="py-20">
-    <div class="container mx-auto px-4">
-        <h2 class="text-4xl font-bold text-center mb-16 fade-in">¿Por Qué Elegirnos?</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-smip-red fade-in hover-lift">
-                <div class="text-3xl mb-4">⚡</div>
-                <h3 class="text-xl font-bold mb-4">Experiencia Comprobada</h3>
-                <p>Más de 30 años en la industria nos respaldan. Nuestro equipo altamente calificado ha resuelto desafíos técnicos complejos para empresas líderes en el sector automotriz y minero.</p>
-            </div>
 
-            <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-smip-red fade-in hover-lift" style="animation-delay: 200ms;">
-                <div class="text-3xl mb-4">🎯</div>
-                <h3 class="text-xl font-bold mb-4">Precisión y Calidad</h3>
-                <p>Utilizamos tecnología de última generación y procesos rigurosos de control de calidad para garantizar que cada pieza cumpla con las especificaciones exactas requeridas.</p>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-smip-red fade-in hover-lift" style="animation-delay: 400ms;">
-                <div class="text-3xl mb-4">⚡</div>
-                <h3 class="text-xl font-bold mb-4">Soluciones Integrales</h3>
-                <p>Desde el diseño hasta la fabricación y mantenimiento, ofrecemos un servicio completo que reduce tiempos y costos operativos para nuestros clientes.</p>
-            </div>
+<section id="nosotros" class="min-h-screen bg-smip-black text-white overflow-hidden flex items-center">
+    <div class="container mx-auto px-4 py-20">
+        <h2 class="text-4xl font-bold text-center mb-20 fade-in">¿Por Qué Elegirnos?</h2>
+        
+        <!-- Features Cards -->
+        <div class="grid md:grid-cols-3 gap-8 mb-20">
+            {features.map((feature, index) => (
+                <div class="fade-in-left" style={`animation-delay: ${index * 200}ms;`}>
+                    <div class="bg-white/10 backdrop-blur rounded-lg p-8 hover-lift h-full border-l-4 border-smip-red feature-card">
+                        <div class="icon-container mb-6">
+                            <span class="text-4xl icon-animation" style={`animation-delay: ${(index * 200) + 500}ms;`}>
+                                {feature.icon}
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">{feature.title}</h3>
+                        <p class="opacity-80">{feature.description}</p>
+                    </div>
+                </div>
+            ))}
         </div>
 
-        <div class="mt-16 grid md:grid-cols-2 gap-12">
-            <div class="space-y-6 fade-in" style="animation-delay: 600ms;">
-                <h3 class="text-2xl font-bold text-smip-red">Certificaciones y Estándares</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-start hover-scale">
-                        <span class="text-smip-red mr-2">✓</span>
-                        <span>Cumplimiento con estándares ISO para procesos de manufactura</span>
-                    </li>
-                    <li class="flex items-start hover-scale">
-                        <span class="text-smip-red mr-2">✓</span>
-                        <span>Personal certificado en procesos especializados de soldadura</span>
-                    </li>
-                    <li class="flex items-start hover-scale">
-                        <span class="text-smip-red mr-2">✓</span>
-                        <span>Equipamiento de última generación calibrado y certificado</span>
-                    </li>
-                </ul>
+        <!-- Info Cards - Full width layout -->
+        <div class="grid md:grid-cols-2 gap-8 w-full mx-auto">
+            <div class="fade-in-right" style="animation-delay: 600ms;">
+                <div class="bg-smip-black rounded-lg p-8 border border-white/10 h-full">
+                    <h3 class="text-2xl font-bold text-smip-red mb-6">Certificaciones y Estándares</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start hover-lift p-2">
+                            <span class="text-smip-red mr-3">✓</span>
+                            <span>Cumplimiento con estándares ISO para procesos de manufactura</span>
+                        </li>
+                        <li class="flex items-start hover-lift p-2">
+                            <span class="text-smip-red mr-3">✓</span>
+                            <span>Personal certificado en procesos especializados de soldadura</span>
+                        </li>
+                        <li class="flex items-start hover-lift p-2">
+                            <span class="text-smip-red mr-3">✓</span>
+                            <span>Equipamiento de última generación calibrado y certificado</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
             
-            <div class="space-y-6 fade-in" style="animation-delay: 800ms;">
-                <h3 class="text-2xl font-bold text-smip-red">Compromiso con la Excelencia</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-start hover-scale">
-                        <span class="text-smip-red mr-2">✓</span>
-                        <span>Tiempo de respuesta garantizado para minimizar paros de producción</span>
-                    </li>
-                    <li class="flex items-start hover-scale">
-                        <span class="text-smip-red mr-2">✓</span>
-                        <span>Seguimiento detallado de proyectos con reportes periódicos</span>
-                    </li>
-                    <li class="flex items-start hover-scale">
-                        <span class="text-smip-red mr-2">✓</span>
-                        <span>Garantía en todos nuestros trabajos y servicios</span>
-                    </li>
-                </ul>
+            <div class="fade-in-left" style="animation-delay: 800ms;">
+                <div class="bg-smip-black rounded-lg p-8 border border-white/10 h-full">
+                    <h3 class="text-2xl font-bold text-smip-red mb-6">Compromiso con la Excelencia</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start hover-lift p-2">
+                            <span class="text-smip-red mr-3">✓</span>
+                            <span>Tiempo de respuesta garantizado para minimizar paros de producción</span>
+                        </li>
+                        <li class="flex items-start hover-lift p-2">
+                            <span class="text-smip-red mr-3">✓</span>
+                            <span>Seguimiento detallado de proyectos con reportes periódicos</span>
+                        </li>
+                        <li class="flex items-start hover-lift p-2">
+                            <span class="text-smip-red mr-3">✓</span>
+                            <span>Garantía en todos nuestros trabajos y servicios</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    .fade-in-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in-left.visible,
+    .fade-in-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    @keyframes slideInFromLeft {
+        0% {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInFromRight {
+        0% {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes iconPop {
+        0% {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        70% {
+            transform: scale(1.2);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .icon-container {
+        height: 4rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .icon-animation {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    .icon-animation.visible {
+        animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(220, 38, 38, 0.1);
+    }
+    
+    /* Prevent icon from disappearing on hover */
+    .feature-card:hover .icon-animation {
+        opacity: 1;
+        transform: scale(1);
+    }
+</style>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add visible class with delay based on index
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                    
+                    // If the element has an icon, animate it after the card animation
+                    const icon = entry.target.querySelector('.icon-animation');
+                    if (icon) {
+                        setTimeout(() => {
+                            icon.classList.add('visible');
+                        }, 300);
+                    }
+                }, index * 200);
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '50px'
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const elements = document.querySelectorAll('.fade-in-left, .fade-in-right, .feature-card');
+        elements.forEach((element) => {
+            observer.observe(element);
+        });
+        
+        // Make sure icons are shown initially
+        setTimeout(() => {
+            document.querySelectorAll('.icon-animation').forEach(icon => {
+                if (!icon.classList.contains('visible')) {
+                    icon.classList.add('visible');
+                }
+            });
+        }, 1500);
+    });
+</script>

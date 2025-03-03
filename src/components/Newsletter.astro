@@ -1,0 +1,156 @@
+<section class="bg-black text-white h-screen relative overflow-hidden flex items-center justify-center">
+    <!-- Fondo con imágenes industriales con overlay oscuro -->
+    <div class="absolute inset-0 z-0">
+        <div class="relative w-full h-full">
+            <!-- Carrusel de imágenes de fondo con efecto Ken Burns -->
+            <div class="carousel-container absolute inset-0">
+                <div class="carousel-images">
+                    <div class="absolute inset-0 bg-black/60 z-10"></div> <!-- Overlay oscuro -->
+                    <img 
+                        src="https://images.pexels.com/photos/162568/oil-pump-jack-sunset-clouds-silhouette-162568.jpeg" 
+                        alt="Maquinaria industrial" 
+                        class="absolute inset-0 w-full h-full object-cover ken-burns"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10 py-16">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 fade-in">Mantente Informado</h2>
+            <p class="text-lg opacity-90 mb-8 fade-in">
+                Recibe actualizaciones sobre nuevas tecnologías, mejores prácticas y ofertas especiales en servicios de maquinado industrial.
+            </p>
+            
+            <!-- Lead Magnet - mismo ancho para todos los elementos -->
+            <div class="bg-white/10 backdrop-blur-sm p-8 rounded-lg mb-12 fade-in w-full">
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <div class="flex-1 text-left">
+                        <h3 class="text-xl font-bold mb-2">Guía: Optimización de Costos en Mantenimiento Industrial</h3>
+                        <p class="opacity-80">Descarga nuestra guía gratuita y descubre cómo reducir costos de mantenimiento sin comprometer la calidad.</p>
+                    </div>
+                    <div class="flex-none">
+                        <a href="#" class="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Descargar Ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulario de suscripción ampliado al mismo ancho -->
+            <form id="newsletterForm" class="w-full mx-auto space-y-4">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input 
+                        type="email" 
+                        placeholder="Tu correo electrónico" 
+                        class="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 focus:border-white focus:ring-2 focus:ring-white/20 focus:outline-none placeholder:text-white/50"
+                        required
+                    />
+                    <button 
+                        type="submit"
+                        class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold whitespace-nowrap"
+                    >
+                        Suscribirme
+                    </button>
+                </div>
+                <p class="text-sm opacity-70">
+                    Al suscribirte, aceptas recibir comunicaciones de marketing. Puedes darte de baja en cualquier momento.
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Efecto Ken Burns */
+    .ken-burns {
+        animation: kenBurns 20s infinite alternate;
+        transform-origin: center;
+    }
+
+    @keyframes kenBurns {
+        0% {
+            transform: scale(1.0);
+        }
+        100% {
+            transform: scale(1.1);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<script>
+    // Imágenes industriales de stock relacionadas con maquinados, manufactura y mantenimiento industrial
+    const images = [
+        "https://images.pexels.com/photos/162568/oil-pump-jack-sunset-clouds-silhouette-162568.jpeg", // Maquinaria industrial
+        "https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg", // Soldadura industrial
+        "https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg", // Fabricación de piezas metálicas
+        "https://images.pexels.com/photos/1267338/pexels-photo-1267338.jpeg", // Maquinaria pesada
+        "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg", // Piezas metálicas y engranajes
+        "https://images.pexels.com/photos/3822850/pexels-photo-3822850.jpeg" // Mantenimiento industrial
+    ];
+    
+    let currentImageIndex = 0;
+    const carouselImages = document.querySelector('.carousel-images');
+    
+    function changeBackgroundImage() {
+        const oldImage = carouselImages.querySelector('img');
+        const newImage = document.createElement('img');
+        
+        // Configurar la nueva imagen
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        newImage.src = images[currentImageIndex];
+        newImage.alt = "Ambientes industriales";
+        newImage.className = "absolute inset-0 w-full h-full object-cover ken-burns opacity-0";
+        
+        // Añadir la nueva imagen
+        carouselImages.appendChild(newImage);
+        
+        // Transición de opacidad
+        setTimeout(() => {
+            newImage.classList.replace('opacity-0', 'opacity-100');
+            newImage.style.transition = 'opacity 1s ease-in-out';
+            
+            if (oldImage) {
+                oldImage.classList.replace('opacity-100', 'opacity-0');
+                oldImage.style.transition = 'opacity 1s ease-in-out';
+                
+                // Remover imagen anterior después de la transición
+                setTimeout(() => {
+                    oldImage.remove();
+                }, 1000);
+            }
+        }, 50);
+    }
+    
+    // Cambiar imagen cada 8 segundos
+    setInterval(changeBackgroundImage, 8000);
+    
+    // Manejar el formulario
+    const form = document.getElementById('newsletterForm');
+    
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const emailInput = form.querySelector('input[type="email"]');
+        const email = emailInput.value;
+        
+        // Aquí iría la lógica para enviar el email al servidor
+        console.log('Email subscrito:', email);
+        
+        // Simular éxito
+        emailInput.value = '';
+        alert('¡Gracias por suscribirte! Te enviaremos un correo de confirmación.');
+    });
+</script>

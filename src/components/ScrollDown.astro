@@ -1,0 +1,53 @@
+---
+---
+<div class="scroll-down">
+    <svg class="mouse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 130" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" fill-rule="evenodd">
+            <rect width="70" height="118" x="1.5" y="1.5" stroke="#FFF" stroke-width="3" rx="36"/>
+            <circle class="scroll" cx="36.5" cy="31.5" r="4.5" fill="#FFF"/>
+        </g>
+    </svg>
+    <span class="text-white text-sm uppercase tracking-widest mt-2">Scroll</span>
+</div>
+
+<style>
+    .scroll-down {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.7;
+        transition: opacity 0.3s;
+    }
+
+    .scroll-down:hover {
+        opacity: 1;
+    }
+
+    .mouse {
+        width: 26px;
+        height: 44px;
+    }
+
+    .scroll {
+        animation: scroll 2s infinite;
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        51% {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>

@@ -1,0 +1,35 @@
+---
+interface Props {
+    imagePath: string;
+    title: string;
+    subtitle?: string;
+}
+
+const { imagePath, title, subtitle } = Astro.props;
+---
+
+<div class="relative h-[40vh] md:h-[50vh] bg-smip-black overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-r from-smip-black/90 to-smip-black/70 z-10"></div>
+        <img 
+            src={imagePath} 
+            alt={title}
+            class="w-full h-full object-cover object-center"
+        />
+    </div>
+    
+    <div class="relative z-20 h-full flex items-center">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl fade-in">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
+                    {title}
+                </h2>
+                {subtitle && (
+                    <p class="text-lg md:text-xl text-white/80">
+                        {subtitle}
+                    </p>
+                )}
+            </div>
+        </div>
+    </div>
+</div>

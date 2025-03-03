@@ -30,26 +30,17 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Optimize images
-        run: |
-          cd dist
-          find . -type f -name "*.png" -exec convert {} -strip -quality 85 {} \;
-          find . -type f -name "*.jpg" -exec convert {} -strip -quality 85 {} \;
-          find . -type f -name "*.jpeg" -exec convert {} -strip -quality 85 {} \;
-          find . -type f -name "*.webp" -exec convert {} -strip -quality 85 {} \;
-
-      - name: Deploy to SFTP
+      - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
+          username: gitworkflow@smipmx.com
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21
-          protocol: ftps
+          protocol: ftp
           local-dir: ./dist/
           server-dir: /home2/smipmxco/public_html/
           dangerous-clean-slate: true
-          security: loose
           exclude: |
             **/.git*
             **/.git*/**

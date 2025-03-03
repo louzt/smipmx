@@ -1,61 +1,95 @@
 ---
 const currentYear = new Date().getFullYear();
+
+const links = {
+    servicios: [
+        { href: "#servicios", text: "Diseño Industrial" },
+        { href: "#servicios", text: "Fabricación y Maquinado" },
+        { href: "#servicios", text: "Soldadura Especializada" },
+        { href: "#servicios", text: "Mantenimiento Industrial" }
+    ],
+    contacto: [
+        { href: "tel:+524448516861", text: "444 851 6861", icon: "📞" },
+        { href: "mailto:soporte@smipmx.com", text: "soporte@smipmx.com", icon: "✉️" },
+        { href: "mailto:ventas@smipmx.com", text: "ventas@smipmx.com", icon: "💼" }
+    ]
+};
+
+const locationInfo = {
+    address: "San Luis Potosí, SLP",
+    coordinates: "22.1565, -100.9855",
+    mapUrl: "https://www.google.com/maps?q=22.1565,-100.9855"
+};
 ---
 
-<footer class="bg-smip-black text-smip-white py-8">
+<footer class="bg-smip-black text-smip-white pt-16 pb-8">
     <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="fade-in">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <!-- Empresa -->
+            <div class="fade-in md:col-span-2">
                 <h3 class="text-xl font-bold mb-4">SMIPMX</h3>
-                <p class="text-sm opacity-80">Más de 30 años de experiencia en maquinados industriales, especializada en fabricación y mantenimiento de piezas industriales.</p>
+                <p class="text-sm opacity-80 mb-6">
+                    Más de 30 años de experiencia en maquinados industriales, especializada en fabricación y mantenimiento de piezas industriales en San Luis Potosí.
+                </p>
+                <div class="bg-white/10 backdrop-blur rounded-lg p-4">
+                    <h4 class="font-semibold mb-2 flex items-center">
+                        <span class="text-smip-red mr-2">📍</span> Ubicación
+                    </h4>
+                    <p class="text-sm opacity-80 mb-2">{locationInfo.address}</p>
+                    <a 
+                        href={locationInfo.mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm text-smip-red hover:text-red-400 transition-colors inline-flex items-center gap-1"
+                    >
+                        Ver en Google Maps
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
             </div>
+
+            <!-- Servicios -->
             <div class="fade-in" style="animation-delay: 200ms;">
-                <h3 class="text-xl font-bold mb-4">Contacto</h3>
-                <ul class="space-y-2">
-                    <li>
-                        <a href="tel:+524448516861" class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-block">
-                            <span class="opacity-80">📞</span> 444 851 6861
-                        </a>
-                    </li>
-                    <li>
-                        <a href="mailto:contacto@smipmx.com" class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-block">
-                            <span class="opacity-80">✉️</span> contacto@smipmx.com
-                        </a>
-                    </li>
-                    <li class="flex items-center space-x-2">
-                        <span class="opacity-80">📍</span>
-                        <span>San Luis Potosí, México</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="fade-in" style="animation-delay: 400ms;">
                 <h3 class="text-xl font-bold mb-4">Servicios</h3>
                 <ul class="space-y-2">
-                    <li>
-                        <a href="#diseno" class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-block">
-                            Diseño Industrial
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#fabricacion" class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-block">
-                            Fabricación y Maquinado
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#soldadura" class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-block">
-                            Soldadura Especializada
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#mantenimiento" class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-block">
-                            Mantenimiento Industrial
-                        </a>
-                    </li>
+                    {links.servicios.map(link => (
+                        <li>
+                            <a href={link.href} 
+                               class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-block">
+                                {link.text}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <!-- Contacto -->
+            <div class="fade-in" style="animation-delay: 400ms;">
+                <h3 class="text-xl font-bold mb-4">Contacto</h3>
+                <ul class="space-y-2">
+                    {links.contacto.map(link => (
+                        <li>
+                            <a href={link.href} 
+                               class="hover:text-smip-red transition-all duration-300 hover:translate-x-2 inline-flex items-center gap-2">
+                                <span class="opacity-80">{link.icon}</span>
+                                {link.text}
+                            </a>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>
-        <div class="border-t border-gray-800 mt-8 pt-8 text-center fade-in" style="animation-delay: 600ms;">
-            <p class="opacity-80">&copy; {currentYear} SMIPMX. Todos los derechos reservados.</p>
+
+        <!-- Separador -->
+        <div class="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8"></div>
+
+        <!-- Copyright -->
+        <div class="text-center fade-in" style="animation-delay: 600ms;">
+            <p class="opacity-80 text-sm">
+                &copy; {currentYear} SMIPMX. Todos los derechos reservados.
+            </p>
         </div>
     </div>
 </footer>

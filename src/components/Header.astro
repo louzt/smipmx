@@ -1,7 +1,4 @@
 ---
-// Header component for SMIPMX
----
-
 const navItems = [
     { href: "#inicio", text: "Inicio" },
     { href: "#nosotros", text: "¿Por qué Nosotros?" },
@@ -9,6 +6,7 @@ const navItems = [
     { href: "#clientes", text: "Clientes" },
     { href: "#contacto", text: "Contacto" }
 ];
+---
 
 <header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm shadow-lg">
     <div class="container mx-auto px-4 py-4">
@@ -57,6 +55,22 @@ const navItems = [
         </div>
     </div>
 </header>
+
+<style>
+    .header-hidden {
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    header {
+        transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+    }
+
+    /* Active link indicator animation */
+    .nav-link span {
+        transition: width 0.3s ease;
+    }
+</style>
 
 <script>
     const header = document.querySelector('header');
@@ -142,19 +156,3 @@ const navItems = [
     // Update active section on page load
     document.addEventListener('DOMContentLoaded', updateActiveSection);
 </script>
-
-<style>
-    .header-hidden {
-        transform: translateY(-100%);
-        transition: transform 0.3s ease-in-out;
-    }
-
-    header {
-        transition: transform 0.3s ease-in-out, background-color 0.3s ease;
-    }
-
-    /* Active link indicator animation */
-    .nav-link span {
-        transition: width 0.3s ease;
-    }
-</style>

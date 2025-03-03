@@ -1,39 +1,71 @@
 ---
+const services = [
+    "Fabricación de Partes",
+    "Mantenimiento Preventivo",
+    "Reconstrucción y Reparación",
+    "Diseño Industrial",
+    "Soldadura Especializada",
+    "Otro"
+];
 ---
-<form id="contactForm" class="space-y-6">
-    <div>
-        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
-    </div>
-    <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" name="email" required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
-    </div>
-    <div>
-        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
-    </div>
-    <div>
-        <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
-        <textarea id="mensaje" name="mensaje" rows="4" required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red"></textarea>
-    </div>
-    <div>
-        <button type="submit"
-            class="w-full bg-smip-red text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-colors">
-            Enviar Mensaje
-        </button>
-    </div>
+<div class="space-y-8">
+    <form id="contactForm" class="space-y-6">
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red" />
+            </div>
+            <div>
+                <label for="servicio" class="block text-sm font-medium text-gray-700">Servicio de Interés</label>
+                <select id="servicio" name="servicio" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red">
+                    <option value="">Seleccione un servicio</option>
+                    {services.map(service => (
+                        <option value={service}>{service}</option>
+                    ))}
+                </select>
+            </div>
+        </div>
+        <div>
+            <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-smip-red focus:ring-smip-red"></textarea>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+            <button type="submit"
+                class="w-full bg-smip-red text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-colors">
+                Enviar Mensaje
+            </button>
+            <a href="https://wa.me/524442571717?text=Hola,%20vi%20su%20página%20web."
+               class="w-full bg-[#25D366] text-white py-3 px-6 rounded-lg hover:bg-[#128C7E] transition-colors flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                </svg>
+                Contactar por WhatsApp
+            </a>
+        </div>
+    </form>
     <div id="formMessage" class="hidden text-center p-4 rounded-lg">
     </div>
-</form>
+</div>
 
 <script>
     const form = document.getElementById('contactForm') as HTMLFormElement;
     const messageDiv = document.getElementById('formMessage');
+    const servicioSelect = document.getElementById('servicio') as HTMLSelectElement;
 
     if (form && messageDiv) {
         form.addEventListener('submit', async (e) => {
@@ -56,6 +88,16 @@
                     form.reset();
                 } else {
                     messageDiv.classList.add('bg-red-100', 'text-red-700');
+                }
+
+                // Si el envío fue exitoso, redirigir a WhatsApp con el mensaje
+                if (response.ok) {
+                    const nombre = formData.get('nombre');
+                    const servicio = formData.get('servicio');
+                    const mensaje = formData.get('mensaje');
+                    const whatsappMessage = `Hola, vi su página web. Soy ${nombre} y estoy interesado en ${servicio}. ${mensaje}`;
+                    const whatsappUrl = `https://wa.me/524442571717?text=${encodeURIComponent(whatsappMessage)}`;
+                    window.open(whatsappUrl, '_blank');
                 }
             } catch (error) {
                 messageDiv.textContent = 'Error al enviar el mensaje. Por favor, intente nuevamente.';

@@ -26,11 +26,32 @@ try {
   console.error('GraphQL query error:', err);
   error = err.message;
 }
+
+// Servicios estáticos mientras se implementa la conexión con WordPress
+const staticServices = [
+  {
+    title: "Fabricación de Partes",
+    content: "Fabricación de piezas mecánicas con precisión y calidad.",
+    image: "/images/assets/fotos card servicios/Fabricación de partes mecánicas en procesos de maquinado.png"
+  },
+  {
+    title: "Mantenimiento Preventivo",
+    content: "Servicio de mantenimiento para optimizar el rendimiento de su equipo.",
+    image: "/images/assets/fotos card servicios/Mantenimiento preventivo.png"
+  },
+  {
+    title: "Reconstrucción y Reparación",
+    content: "Restauración completa de componentes industriales.",
+    image: "/images/assets/fotos card servicios/Reconstrucción y reparación.png"
+  }
+];
 ---
 
-<section class="services-section bg-gray-100 py-12">
+<section id="servicios" class="services-section min-h-screen bg-gray-100 py-12 overflow-hidden">
   <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-10 text-red-700">Nuestros Servicios</h2>
+    <h2 class="text-3xl font-bold text-center mb-10 text-smip-red fade-in">
+      Nuestros Servicios
+    </h2>
     
     {error && (
       <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
@@ -38,21 +59,89 @@ try {
       </div>
     )}
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {services.map(service => (
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold mb-3 text-black">{service.title}</h3>
-            <div class="text-gray-700" set:html={service.content} />
+    <!-- Carrusel Vertical -->
+    <div class="services-carousel relative h-[70vh] overflow-y-auto snap-y snap-mandatory">
+      {staticServices.map((service, index) => (
+        <div class="snap-start min-h-[70vh] flex items-center justify-center py-8">
+          <div class="bg-white rounded-lg shadow-xl overflow-hidden max-w-4xl w-full fade-in hover-lift">
+            <div class="grid md:grid-cols-2 gap-0">
+              <div class="p-8 flex flex-col justify-center">
+                <h3 class="text-2xl font-bold mb-4 text-smip-red">{service.title}</h3>
+                <p class="text-gray-700">{service.content}</p>
+                <a href="#contacto" class="inline-block mt-6 px-6 py-3 bg-smip-red text-white rounded-lg hover:bg-red-700 transition-colors text-center">
+                  Solicitar Servicio
+                </a>
+              </div>
+              <div class="relative h-64 md:h-auto">
+                <img 
+                  src={service.image} 
+                  alt={service.title} 
+                  class="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       ))}
-      
-      {services.length === 0 && !error && (
-        <div class="col-span-full text-center py-8 text-gray-500">
-          Cargando servicios...
-        </div>
-      )}
+    </div>
+
+    <!-- Indicadores de navegación -->
+    <div class="flex justify-center mt-6 space-x-2">
+      {staticServices.map((_, index) => (
+        <button 
+          class="w-3 h-3 rounded-full bg-gray-300 hover:bg-smip-red transition-colors" 
+          data-index={index}
+          aria-label={`Ir al servicio ${index + 1}`}>
+        </button>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  .services-carousel {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .services-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .services-carousel > div {
+    scroll-snap-align: start;
+  }
+</style>
+
+<script>
+  // Navegación del carrusel
+  const carousel = document.querySelector('.services-carousel');
+  const slides = document.querySelectorAll('.services-carousel > div');
+  const indicators = document.querySelectorAll('[data-index]');
+  
+  indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+      slides[index].scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Actualizar indicadores basado en la posición del scroll
+  if (carousel) {
+    carousel.addEventListener('scroll', () => {
+      const currentScroll = carousel.scrollTop;
+      const slideHeight = carousel.clientHeight;
+      
+      const currentIndex = Math.round(currentScroll / slideHeight);
+      
+      indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+          indicator.classList.add('bg-smip-red');
+          indicator.classList.remove('bg-gray-300');
+        } else {
+          indicator.classList.remove('bg-smip-red');
+          indicator.classList.add('bg-gray-300');
+        }
+      });
+    });
+  }
+</script>

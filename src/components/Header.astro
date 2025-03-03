@@ -2,40 +2,159 @@
 // Header component for SMIPMX
 ---
 
-<header class="fixed w-full bg-smip-black bg-opacity-90 text-smip-white z-50">
+const navItems = [
+    { href: "#inicio", text: "Inicio" },
+    { href: "#nosotros", text: "¿Por qué Nosotros?" },
+    { href: "#servicios", text: "Servicios" },
+    { href: "#clientes", text: "Clientes" },
+    { href: "#contacto", text: "Contacto" }
+];
+
+<header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm shadow-lg">
     <div class="container mx-auto px-4 py-4">
         <nav class="flex justify-between items-center">
-            <div class="text-2xl font-bold">SMIPMX</div>
+            <a href="#inicio" class="hover-scale">
+                <img src="/images/assets/logotipo negro para fondo blanco.png" alt="SMIPMX" class="h-12" />
+            </a>
             <ul class="hidden md:flex space-x-6">
-                <li><a href="/" class="hover:text-smip-red transition-colors">Inicio</a></li>
-                <li><a href="#servicios" class="hover:text-smip-red transition-colors">Servicios</a></li>
-                <li><a href="#nosotros" class="hover:text-smip-red transition-colors">Nosotros</a></li>
-                <li><a href="#clientes" class="hover:text-smip-red transition-colors">Clientes</a></li>
-                <li><a href="#contacto" class="hover:text-smip-red transition-colors">Contacto</a></li>
+                {navItems.map(item => (
+                    <li>
+                        <a href={item.href} 
+                           class="nav-link hover:text-smip-red transition-colors text-smip-black font-medium relative py-2"
+                           data-section={item.href.substring(1)}>
+                            {item.text}
+                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-smip-red transition-all duration-300"></span>
+                        </a>
+                    </li>
+                ))}
             </ul>
-            <button class="md:hidden" id="mobile-menu-button">
-                <span class="block w-6 h-0.5 bg-white mb-1"></span>
-                <span class="block w-6 h-0.5 bg-white mb-1"></span>
-                <span class="block w-6 h-0.5 bg-white"></span>
+            <button class="md:hidden p-2" id="mobile-menu-button" aria-label="Menu">
+                <div class="w-6 h-5 relative flex flex-col justify-between">
+                    <span class="w-full h-0.5 bg-smip-black transition-all duration-300"></span>
+                    <span class="w-full h-0.5 bg-smip-black transition-all duration-300"></span>
+                    <span class="w-full h-0.5 bg-smip-black transition-all duration-300"></span>
+                </div>
             </button>
         </nav>
-        <div class="hidden md:hidden" id="mobile-menu">
-            <ul class="pt-4">
-                <li><a href="/" class="block py-2">Inicio</a></li>
-                <li><a href="#servicios" class="block py-2">Servicios</a></li>
-                <li><a href="#nosotros" class="block py-2">Nosotros</a></li>
-                <li><a href="#clientes" class="block py-2">Clientes</a></li>
-                <li><a href="#contacto" class="block py-2">Contacto</a></li>
+    </div>
+    <!-- Banner negro delgado -->
+    <div class="h-1 bg-smip-black w-full"></div>
+    
+    <!-- Menú móvil -->
+    <div class="hidden md:hidden bg-white/95 backdrop-blur-sm absolute w-full border-b border-gray-200" id="mobile-menu">
+        <div class="container mx-auto px-4">
+            <ul class="py-4 space-y-4">
+                {navItems.map(item => (
+                    <li>
+                        <a href={item.href} 
+                           class="block text-smip-black hover:text-smip-red transition-colors py-2"
+                           data-section={item.href.substring(1)}>
+                            {item.text}
+                        </a>
+                    </li>
+                ))}
             </ul>
         </div>
     </div>
 </header>
 
 <script>
+    const header = document.querySelector('header');
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Toggle mobile menu with animation
     mobileMenuButton?.addEventListener('click', () => {
+        const spans = mobileMenuButton.querySelectorAll('span');
         mobileMenu?.classList.toggle('hidden');
+        
+        // Animate hamburger to X
+        if (!mobileMenu?.classList.contains('hidden')) {
+            spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+            spans[1].style.opacity = '0';
+            spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
     });
+
+    // Close mobile menu on link click
+    mobileMenu?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            const spans = mobileMenuButton?.querySelectorAll('span');
+            if (spans) {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+    });
+
+    // Header scroll effect with opacity
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll <= 0) {
+            header?.classList.remove('header-hidden');
+            return;
+        }
+        
+        if (currentScroll > lastScroll && currentScroll > 100) {
+            header?.classList.add('header-hidden');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        } else {
+            header?.classList.remove('header-hidden');
+        }
+        
+        lastScroll = currentScroll;
+        updateActiveSection();
+    });
+
+    // Update active section based on scroll position
+    function updateActiveSection() {
+        const sections = document.querySelectorAll('section');
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.id;
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                document.querySelectorAll(`[data-section="${sectionId}"]`).forEach(link => {
+                    link.querySelector('span')?.classList.add('w-full');
+                });
+            } else {
+                document.querySelectorAll(`[data-section="${sectionId}"]`).forEach(link => {
+                    link.querySelector('span')?.classList.remove('w-full');
+                });
+            }
+        });
+    }
+
+    // Update active section on page load
+    document.addEventListener('DOMContentLoaded', updateActiveSection);
 </script>
+
+<style>
+    .header-hidden {
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    header {
+        transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+    }
+
+    /* Active link indicator animation */
+    .nav-link span {
+        transition: width 0.3s ease;
+    }
+</style>

@@ -1,24 +1,39 @@
 ---
 ---
-<section class="relative h-screen overflow-hidden">
+<section id="inicio" class="relative h-screen overflow-hidden">
     <div class="absolute inset-0 z-0">
         <div class="relative h-full carousel" id="heroCarousel">
             <div class="absolute inset-0 bg-gradient-to-r from-smip-black/80 to-smip-black/60 z-10"></div>
-            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0" 
-                style="background-image: url('/_astro/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png');">
+            
+            <!-- Video slide -->
+            <div class="absolute inset-0 transition-opacity duration-1000 z-0">
+                <video 
+                    class="w-full h-full object-cover"
+                    autoplay 
+                    muted 
+                    playsinline
+                    id="heroVideo"
+                >
+                    <source src="/images/assets/videos/pexels-tima-miroshnichenko-4941457-1920x1080-50fps.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- Image slides -->
+            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
+                style="background-image: url('/images/assets/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png');">
             </div>
             <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
-                style="background-image: url('/_astro/fotos impactantes/horizontales/Soldadura1.png');">
+                style="background-image: url('/images/assets/fotos impactantes/horizontales/Soldadura1.png');">
             </div>
             <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" 
-                style="background-image: url('/_astro/fotos impactantes/horizontales/worker-cuts-metal-ga80aed5ad_1280.png');">
+                style="background-image: url('/images/assets/fotos impactantes/horizontales/worker-cuts-metal-ga80aed5ad_1280.png');">
             </div>
         </div>
     </div>
     
     <div class="relative z-20 h-full flex items-center">
         <div class="container mx-auto px-4">
-            <div class="max-w-3xl">
+            <div class="max-w-3xl fade-in">
                 <div class="mb-4 text-xl md:text-2xl text-smip-red font-semibold">
                     Más de 30 años de experiencia
                 </div>
@@ -32,11 +47,11 @@
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="#servicios" 
-                       class="bg-smip-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                       class="bg-smip-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-all hover:scale-105">
                         Descubre Nuestros Servicios
                     </a>
                     <a href="#contacto" 
-                       class="border-2 border-white hover:border-smip-red text-white hover:text-smip-red font-bold py-3 px-8 rounded-lg transition-colors">
+                       class="border-2 border-white hover:border-smip-red text-white hover:text-smip-red font-bold py-3 px-8 rounded-lg transition-all hover:scale-105">
                         Solicita una Cotización
                     </a>
                 </div>
@@ -64,22 +79,52 @@
         }, 500);
     }
 
-    // Update slides
-    let currentSlide = 0;
+    // Manejar la transición del video a las imágenes
+    const video = document.getElementById('heroVideo') as HTMLVideoElement;
     const slides = document.querySelectorAll('#heroCarousel > div:not(:first-child)') as NodeListOf<HTMLElement>;
+    let currentSlide = -1; // Comenzamos en -1 para el video
     
     function nextSlide() {
-        slides[currentSlide].style.opacity = '0';
+        if (currentSlide === -1) {
+            // Transición del video a la primera imagen
+            video.parentElement.style.opacity = '0';
+            setTimeout(() => {
+                video.pause();
+                slides[0].style.opacity = '1';
+            }, 1000);
+        } else {
+            slides[currentSlide].style.opacity = '0';
+            const nextIndex = (currentSlide + 1) % slides.length;
+            slides[nextIndex].style.opacity = '1';
+        }
         currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].style.opacity = '1';
         updateWord();
     }
 
-    setInterval(nextSlide, 5000);
+    // Iniciar el carrusel cuando el video termine
+    if (video) {
+        video.addEventListener('ended', () => {
+            nextSlide();
+            setInterval(nextSlide, 5000);
+        });
+    }
 </script>
 
 <style>
     #typed-text {
         transition: opacity 0.5s ease-in-out;
+    }
+
+    @keyframes kenburns {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(1.1);
+        }
+    }
+
+    .animate-kenburns {
+        animation: kenburns 20s ease-in-out infinite alternate;
     }
 </style>

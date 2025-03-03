@@ -75,6 +75,7 @@ const services = [
                     playsinline
                     loop
                     id="serviceVideo"
+                    poster="/images/assets/fotos card servicios/Fabricación de partes mecánicas en procesos de maquinado.png"
                 >
                     <source src="/images/assets/videos/3987526-sd_960_540_25fps.mp4" type="video/mp4">
                 </video>
@@ -92,10 +93,10 @@ const services = [
     <div class="container mx-auto md:px-4 -mt-32 relative z-20">
         <div class="bg-smip-black/95 rounded-xl p-4 md:p-8 shadow-2xl">
             <!-- Carrusel -->
-            <div class="overflow-hidden">
+            <div class="overflow-hidden relative">
                 <div class="services-track flex transition-transform duration-500 ease-in-out mx-auto">
                     {services.map((service, index) => (
-                        <div class="flex-none w-[90vw] md:w-[calc(33.333%-1rem)] px-2 md:px-3 service-slide">
+                        <div class="flex-none w-full md:w-[calc(33.333%-1rem)] px-2 md:px-3 service-slide">
                             <div class="bg-white/10 backdrop-blur rounded-lg overflow-hidden hover-lift h-full">
                                 <!-- Contenedor de la imagen con altura fija -->
                                 <div class="relative overflow-hidden h-[300px] md:h-[400px]">
@@ -104,26 +105,33 @@ const services = [
                                         alt={service.title}
                                         class="w-full h-full object-cover object-bottom transition-transform duration-500 hover:scale-110"
                                     />
+                                    <!-- Ícono en la esquina superior -->
+                                    <div class="absolute top-4 right-4 bg-smip-red rounded-full p-2">
+                                        <span class="icon text-white" set:html={service.icon} />
+                                    </div>
                                 </div>
                                 <div class="p-6 md:p-8 text-white relative">
-                                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-3">
-                                        <span class="icon flex-shrink-0" set:html={service.icon} />
-                                        <span>{service.title}</span>
-                                    </h3>
+                                    <h3 class="text-2xl font-bold mb-4">{service.title}</h3>
                                     <p class="opacity-80 mb-6">{service.description}</p>
                                     <a 
                                         href={`https://wa.me/524442571717?text=${encodeURIComponent(service.whatsappText)}`}
                                         target="_blank"
                                         class="inline-flex items-center justify-center gap-2 bg-smip-red w-full px-6 py-3 rounded-lg transition-all duration-300 hover:bg-red-700 group"
                                     >
-                                        <span class="icon flex-shrink-0 transform transition-transform group-hover:scale-110" set:html={service.icon} />
-                                        <span class="flex-shrink-0">{service.cta}</span>
+                                        <span>{service.cta}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
+
+                <!-- Gradiente en los bordes para efecto infinito -->
+                <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-smip-black/95 to-transparent pointer-events-none z-10"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-smip-black/95 to-transparent pointer-events-none z-10"></div>
             </div>
 
             <!-- Controles de navegación -->
@@ -159,12 +167,14 @@ const services = [
     }
 
     .service-slide {
-        opacity: 0.5;
-        transition: opacity 0.5s ease;
+        opacity: 0.7;
+        transition: all 0.5s ease;
     }
 
     .service-slide.active {
         opacity: 1;
+        transform: scale(1.02);
+        z-index: 5;
     }
 
     .hover-lift {
@@ -177,12 +187,13 @@ const services = [
     }
 
     .icon {
-        @apply text-smip-red;
+        height: 24px;
+        width: 24px;
     }
 
     @media (max-width: 768px) {
         .service-slide {
-            width: 85vw;
+            width: 100%;
             margin: 0 auto;
         }
         
@@ -192,14 +203,7 @@ const services = [
         }
     }
 
-    @media (max-width: 1024px) {
-        .service-slide {
-            width: 90vw;
-            margin: 0 auto;
-        }
-    }
-
-    @media (min-width: 1025px) {
+    @media (min-width: 769px) {
         .service-slide {
             width: calc(33.333% - 1rem);
         }
@@ -217,47 +221,78 @@ const services = [
     let startX: number;
     let isDragging = false;
     let slideWidth = slides[0]?.offsetWidth + 24; // Incluye el padding
+    let totalSlides = slides.length;
     
     function updateSlideWidth() {
         slideWidth = slides[0]?.offsetWidth + 24;
     }
-
-    function updateSlides(index: number) {
+    
+    // Clonar elementos para crear el efecto de carrusel infinito
+    function setupInfiniteCarousel() {
+        // No clonar si hay suficientes slides para llenar la pantalla
+        if (totalSlides <= 3) return;
+        
+        // Clonar los primeros slides y añadirlos al final
+        for (let i = 0; i < 3; i++) {
+            if (slides[i]) {
+                const clone = slides[i].cloneNode(true) as HTMLElement;
+                track.appendChild(clone);
+            }
+        }
+        
+        // Clonar los últimos slides y añadirlos al principio
+        for (let i = totalSlides - 1; i >= Math.max(0, totalSlides - 3); i--) {
+            if (slides[i]) {
+                const clone = slides[i].cloneNode(true) as HTMLElement;
+                track.insertBefore(clone, track.firstChild);
+            }
+        }
+        
+        // Ajustar el índice inicial para compensar los slides clonados al principio
+        currentIndex = 3;
+        updateSlides(currentIndex, false);
+    }
+    
+    function updateSlides(index: number, withAnimation = true) {
         if (!track) return;
         
-        // Calcular el máximo índice dependiendo del ancho de pantalla
+        // Calcular cuántos slides mostrar según ancho de pantalla
         let visibleSlides = 1; // Por defecto para móviles
-        if (window.innerWidth >= 1024) {
+        if (window.innerWidth >= 768) {
             visibleSlides = 3; // En desktop mostramos 3 slides
-        } else if (window.innerWidth >= 768) {
-            visibleSlides = 2; // En tablets mostramos 2 slides
         }
         
-        const maxIndex = Math.max(0, slides.length - visibleSlides);
+        // Manejar efecto infinito
+        const allSlides = document.querySelectorAll('.service-slide');
+        const totalSlidesWithClones = allSlides.length;
         
-        // Si llegamos al final, volver al principio
-        if (index > maxIndex) {
-            index = 0;
-        } else if (index < 0) {
-            index = maxIndex;
+        // Si llega al final, saltar al inicio sin animación
+        if (index >= totalSlidesWithClones - visibleSlides) {
+            index = 3; // Ir al inicio (después de los clones)
+            withAnimation = false;
+        } else if (index < 3) {
+            index = totalSlidesWithClones - visibleSlides - 3;
+            withAnimation = false;
         }
         
-        // Actualizar posición del track
+        // Actualizar posición del carrusel
         const offset = -index * slideWidth;
+        track.style.transition = withAnimation ? 'transform 0.5s ease-in-out' : 'none';
         track.style.transform = `translateX(${offset}px)`;
         
-        // Actualizar estado activo de slides
-        slides.forEach((slide, i) => {
-            if (i === index) {
+        // Actualizar estado visual de activo solo en slides visibles
+        allSlides.forEach((slide, i) => {
+            if (i >= index && i < index + visibleSlides) {
                 slide.classList.add('active');
             } else {
                 slide.classList.remove('active');
             }
         });
         
-        // Actualizar dots
+        // Actualizar paginación
+        const originalIndex = (index - 3) % totalSlides;
         dots.forEach((dot, i) => {
-            if (i === index) {
+            if (i === originalIndex) {
                 dot.classList.add('bg-white');
                 dot.classList.remove('bg-white/30');
             } else {
@@ -267,59 +302,54 @@ const services = [
         });
         
         currentIndex = index;
-        
-        // Habilitar/deshabilitar botones según la posición
-        if (prevBtn && nextBtn) {
-            prevBtn.classList.toggle('opacity-50', currentIndex === 0);
-            nextBtn.classList.toggle('opacity-50', currentIndex === slides.length - 1);
-        }
+    }
+    
+    // Navegar al siguiente slide
+    function nextSlide() {
+        updateSlides(currentIndex + 1);
+    }
+    
+    // Navegar al slide anterior
+    function prevSlide() {
+        updateSlides(currentIndex - 1);
     }
 
     // Event Listeners
-    prevBtn?.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            updateSlides(currentIndex - 1);
-        }
-    });
-
-    nextBtn?.addEventListener('click', () => {
-        if (currentIndex < slides.length - 1) {
-            updateSlides(currentIndex + 1);
-        }
-    });
+    prevBtn?.addEventListener('click', prevSlide);
+    nextBtn?.addEventListener('click', nextSlide);
 
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            updateSlides(index);
+            updateSlides(index + 3); // +3 para compensar los clones
         });
     });
 
     // Touch/Mouse events para swipe
     track?.addEventListener('mousedown', (e) => {
         isDragging = true;
-        startX = e.pageX - track.offsetLeft;
+        startX = e.pageX - (track.offsetLeft || 0);
         track.style.transition = 'none';
     });
 
     track?.addEventListener('touchstart', (e) => {
         isDragging = true;
-        startX = e.touches[0].pageX - track.offsetLeft;
+        startX = e.touches[0].pageX - (track.offsetLeft || 0);
         track.style.transition = 'none';
     });
 
     window.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         e.preventDefault();
-        const x = e.pageX - track.offsetLeft;
-        const walk = (x - startX) * 2;
+        const x = e.pageX - (track.offsetLeft || 0);
+        const walk = (x - startX);
         const current = -currentIndex * slideWidth;
         track.style.transform = `translateX(${current + walk}px)`;
     });
 
     window.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
-        const x = e.touches[0].pageX - track.offsetLeft;
-        const walk = (x - startX) * 2;
+        const x = e.touches[0].pageX - (track.offsetLeft || 0);
+        const walk = (x - startX);
         const current = -currentIndex * slideWidth;
         track.style.transform = `translateX(${current + walk}px)`;
     });
@@ -327,18 +357,15 @@ const services = [
     function handleDragEnd(e: MouseEvent | TouchEvent) {
         if (!isDragging) return;
         isDragging = false;
-        track.style.transition = 'transform 0.5s ease-in-out';
         
         const x = 'touches' in e ? e.changedTouches[0].pageX : e.pageX;
-        const walk = (x - startX) * 2;
+        const walk = (x - startX);
         
         if (Math.abs(walk) > slideWidth / 3) {
-            if (walk > 0 && currentIndex > 0) {
-                updateSlides(currentIndex - 1);
-            } else if (walk < 0 && currentIndex < slides.length - 1) {
-                updateSlides(currentIndex + 1);
+            if (walk > 0) {
+                prevSlide();
             } else {
-                updateSlides(currentIndex);
+                nextSlide();
             }
         } else {
             updateSlides(currentIndex);
@@ -351,53 +378,34 @@ const services = [
     // Actualizar en resize
     window.addEventListener('resize', () => {
         updateSlideWidth();
-        updateSlides(currentIndex);
+        updateSlides(currentIndex, false);
     });
 
     // Inicialización
     document.addEventListener('DOMContentLoaded', () => {
         updateSlideWidth();
-        updateSlides(0);
-        slides[0]?.classList.add('active');
-    });
-
-    // Autoplay
-    let autoplayInterval: number;
-
-    function startAutoplay() {
-        autoplayInterval = setInterval(() => {
-            if (currentIndex < slides.length - 1) {
-                updateSlides(currentIndex + 1);
-            } else {
-                updateSlides(0);
+        setupInfiniteCarousel();
+        
+        // Autoplay
+        setInterval(() => {
+            if (!document.hidden) {
+                nextSlide();
             }
         }, 5000);
-    }
-
-    function stopAutoplay() {
-        clearInterval(autoplayInterval);
-    }
-
-    // Iniciar autoplay
-    startAutoplay();
-
-    // Detener autoplay en hover o touch
-    track?.addEventListener('mouseenter', stopAutoplay);
-    track?.addEventListener('mouseleave', startAutoplay);
-    track?.addEventListener('touchstart', stopAutoplay);
-    track?.addEventListener('touchend', startAutoplay);
-
-    // Inicialización del video del servicio
-    document.addEventListener('DOMContentLoaded', () => {
+        
+        // Inicializar video
         const serviceVideo = document.getElementById('serviceVideo') as HTMLVideoElement;
         if (serviceVideo) {
-            serviceVideo.play().catch(error => {
-                console.error("Error playing service video:", error);
-                // Intentar reproducir en interacción del usuario
-                document.addEventListener('touchstart', () => {
-                    serviceVideo.play().catch(console.error);
-                }, { once: true });
-            });
+            serviceVideo.load();
+            const promise = serviceVideo.play();
+            if (promise !== undefined) {
+                promise.catch(error => {
+                    console.error("Error playing service video:", error);
+                    document.addEventListener('click', () => {
+                        serviceVideo.play().catch(console.error);
+                    }, { once: true });
+                });
+            }
         }
     });
 </script>

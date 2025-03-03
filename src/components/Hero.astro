@@ -1,5 +1,10 @@
 ---
+import { Image } from 'astro:assets';
+import { siteConfig } from '../config';
 import ScrollDown from './ScrollDown.astro';
+import katerynaBabaieva from '../assets/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png';
+import soldadura from '../assets/fotos impactantes/horizontales/Soldadura1.png';
+import worker from '../assets/fotos impactantes/horizontales/worker-cuts-metal-ga80aed5ad_1280.png';
 ---
 
 <section id="inicio" class="relative h-screen overflow-hidden bg-smip-black">
@@ -7,29 +12,34 @@ import ScrollDown from './ScrollDown.astro';
         <div class="relative h-full carousel" id="heroCarousel">
             <div class="absolute inset-0 bg-gradient-to-r from-smip-black/80 to-smip-black/60 z-10"></div>
             
-            <!-- Video slide -->
+            <!-- Video slide con fallback -->
             <div class="absolute inset-0 transition-opacity duration-1000 z-0" id="videoContainer">
                 <video 
                     class="w-full h-full object-cover object-center"
                     autoplay 
                     muted 
                     playsinline
+                    loop
                     id="heroVideo"
-                    poster="/images/assets/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png"
+                    poster={katerynaBabaieva.src}
                 >
                     <source src="/images/assets/videos/pexels-tima-miroshnichenko-4941457-1920x1080-50fps.mp4" type="video/mp4">
                 </video>
+                <!-- Fallback image si el video no carga -->
+                <div id="videoFallback" class="absolute inset-0 opacity-0">
+                    <Image src={katerynaBabaieva} alt="Maquinados industriales" class="w-full h-full object-cover animate-kenburns" />
+                </div>
             </div>
 
-            <!-- Image slides -->
-            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" id="slide1"
-                style="background-image: url('/images/assets/fotos impactantes/horizontales/pexels-kateryna-babaieva-2760344.png');">
+            <!-- Image slides con kenburns -->
+            <div class="absolute inset-0 transition-opacity duration-1000 bg-cover bg-center z-0 opacity-0 kenburns-slide" id="slide1">
+                <Image src={katerynaBabaieva} alt="Maquinados industriales" class="w-full h-full object-cover" />
             </div>
-            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" id="slide2"
-                style="background-image: url('/images/assets/fotos impactantes/horizontales/Soldadura1.png');">
+            <div class="absolute inset-0 transition-opacity duration-1000 bg-cover bg-center z-0 opacity-0 kenburns-slide" id="slide2">
+                <Image src={soldadura} alt="Soldadura de precisión" class="w-full h-full object-cover" />
             </div>
-            <div class="absolute inset-0 transition-opacity duration-1000 animate-kenburns bg-cover bg-center z-0 opacity-0" id="slide3"
-                style="background-image: url('/images/assets/fotos impactantes/horizontales/worker-cuts-metal-ga80aed5ad_1280.png');">
+            <div class="absolute inset-0 transition-opacity duration-1000 bg-cover bg-center z-0 opacity-0 kenburns-slide" id="slide3">
+                <Image src={worker} alt="Trabajador cortando metal" class="w-full h-full object-cover" />
             </div>
         </div>
     </div>
@@ -137,6 +147,7 @@ import ScrollDown from './ScrollDown.astro';
     // Manejar la transición del video a las imágenes
     const video = document.getElementById('heroVideo');
     const videoContainer = document.getElementById('videoContainer');
+    const videoFallback = document.getElementById('videoFallback');
     const slides = [
         document.getElementById('slide1'),
         document.getElementById('slide2'),
@@ -144,63 +155,88 @@ import ScrollDown from './ScrollDown.astro';
     ];
     
     let currentSlide = -1;
+    let isVideoReady = false;
+    const SLIDE_DURATION = 8000; // 8 segundos por slide
     
-    function showNextSlide() {
-        // Si estamos mostrando el video, cambiamos a la primera imagen
-        if (currentSlide === -1) {
-            videoContainer.style.opacity = '0';
-            setTimeout(() => {
-                video.pause();
-                slides[0].style.opacity = '1';
-                currentSlide = 0;
-            }, 1000);
-        } else {
-            // Si estamos mostrando una imagen, ocultamos la actual
-            slides[currentSlide].style.opacity = '0';
-            
-            // Pasamos a la siguiente imagen o volvemos al video
-            currentSlide = (currentSlide + 1) % slides.length;
-            
-            setTimeout(() => {
-                if (currentSlide === 0) {
-                    // Si completamos el ciclo, volver al video
-                    video.currentTime = 0;
-                    video.play();
-                    videoContainer.style.opacity = '1';
-                    currentSlide = -1;
-                } else {
-                    // Mostrar la siguiente imagen
-                    slides[currentSlide].style.opacity = '1';
-                }
-            }, 1000);
-        }
-        
-        // Actualizar la palabra al cambiar la imagen
-        updateWord();
-    }
-
-    if (video) {
-        // Cuando termina el video, mostrar la primera imagen
-        video.addEventListener('ended', () => {
-            showNextSlide();
-            setInterval(showNextSlide, 5000);
-        });
-    }
-    
-    // Asegurar reproducción del video en móviles
-    document.addEventListener('DOMContentLoaded', () => {
-        if (video) {
-            video.load();
-            const playPromise = video.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    document.addEventListener('touchstart', () => {
-                        video.play();
-                    }, { once: true });
-                });
+    function checkVideoStatus() {
+        if (video instanceof HTMLVideoElement) {
+            // Verificar si el video está listo y puede reproducirse
+            if (video.readyState >= 3) { // HAVE_FUTURE_DATA or better
+                isVideoReady = true;
+                videoFallback.style.opacity = '0';
+            } else {
+                // Si el video no está listo, mostrar la imagen de fallback
+                isVideoReady = false;
+                videoFallback.style.opacity = '1';
             }
         }
+    }
+    
+    function showNextSlide() {
+        // Ocultar slide actual
+        if (currentSlide === -1) {
+            videoContainer.style.opacity = '0';
+        } else if (slides[currentSlide]) {
+            slides[currentSlide].style.opacity = '0';
+        }
+        
+        // Avanzar al siguiente slide
+        currentSlide = (currentSlide + 1) % (slides.length + 1);
+        
+        setTimeout(() => {
+            if (currentSlide === 0) {
+                // Mostrar video o fallback
+                checkVideoStatus();
+                if (video && isVideoReady) {
+                    video.currentTime = 0;
+                    video.play().catch(() => {
+                        videoFallback.style.opacity = '1';
+                    });
+                }
+                videoContainer.style.opacity = '1';
+            } else {
+                // Mostrar imagen
+                const slideIndex = currentSlide - 1;
+                if (slides[slideIndex]) {
+                    slides[slideIndex].style.opacity = '1';
+                }
+            }
+        }, 1000);
+        
+        updateWord();
+    }
+    
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+        // Mostrar el primer mensaje del banner
+        updateBanner();
+        setInterval(updateBanner, 8000);
+        
+        // Configurar video
+        if (video instanceof HTMLVideoElement) {
+            video.addEventListener('loadeddata', checkVideoStatus);
+            video.addEventListener('error', () => {
+                videoFallback.style.opacity = '1';
+                isVideoReady = false;
+            });
+            
+            // Intentar reproducir el video
+            video.load();
+            video.play().catch(error => {
+                console.error("Error reproduciendo video:", error);
+                videoFallback.style.opacity = '1';
+                
+                // Intentar reproducir cuando haya interacción
+                document.addEventListener('click', () => {
+                    video.play().catch(() => {
+                        videoFallback.style.opacity = '1';
+                    });
+                }, { once: true });
+            });
+        }
+        
+        // Iniciar carrusel
+        setInterval(showNextSlide, SLIDE_DURATION);
     });
 </script>
 
@@ -217,12 +253,19 @@ import ScrollDown from './ScrollDown.astro';
         0% {
             transform: scale(1);
         }
-        100% {
+        50% {
             transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
         }
     }
 
     .animate-kenburns {
+        animation: kenburns 20s ease-in-out infinite alternate;
+    }
+
+    .kenburns-slide {
         animation: kenburns 20s ease-in-out infinite alternate;
     }
 

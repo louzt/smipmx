@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+import { siteConfig } from '../config';
+import logo from '../assets/logotipo negro para fondo blanco.png';
+
 const navItems = [
     { href: "#inicio", text: "Inicio" },
     { href: "#nosotros", text: "¿Por qué Nosotros?" },
@@ -12,7 +16,7 @@ const navItems = [
     <div class="container mx-auto px-4 py-4">
         <nav class="flex justify-between items-center">
             <a href="#inicio" class="hover-scale">
-                <img src="/images/assets/logotipo negro para fondo blanco.png" alt="SMIPMX" class="h-12" />
+                <Image src={logo} alt="SMIPMX" class="h-12 w-auto" />
             </a>
             <ul class="hidden md:flex space-x-6">
                 {navItems.map(item => (
@@ -57,13 +61,8 @@ const navItems = [
 </header>
 
 <style>
-    .header-hidden {
-        transform: translateY(-100%);
-        transition: transform 0.3s ease-in-out;
-    }
-
     header {
-        transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+        transition: background-color 0.3s ease;
     }
 
     /* Active link indicator animation */
@@ -108,29 +107,6 @@ const navItems = [
         });
     });
 
-    // Header scroll effect with opacity
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll <= 0) {
-            header?.classList.remove('header-hidden');
-            return;
-        }
-        
-        if (currentScroll > lastScroll && currentScroll > 100) {
-            header?.classList.add('header-hidden');
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-        } else {
-            header?.classList.remove('header-hidden');
-        }
-        
-        lastScroll = currentScroll;
-        updateActiveSection();
-    });
-
     // Update active section based on scroll position
     function updateActiveSection() {
         const sections = document.querySelectorAll('section');
@@ -153,6 +129,7 @@ const navItems = [
         });
     }
 
-    // Update active section on page load
+    // Update active section on page load and scroll
     document.addEventListener('DOMContentLoaded', updateActiveSection);
+    window.addEventListener('scroll', updateActiveSection);
 </script>

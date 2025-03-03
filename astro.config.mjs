@@ -5,10 +5,15 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'static', // Static site generation for headless WordPress
+  output: 'static',
   integrations: [
     tailwind(),
-    react(), // Add React support for client-side interactivity
+    react(),
   ],
   site: 'https://smipmx.com',
+  outDir: '../../..',  // Esto colocará los archivos en la raíz del proyecto
+  build: {
+    assets: '_astro',
+    assetsPrefix: '/'
+  }
 });
